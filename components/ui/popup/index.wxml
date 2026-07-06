@@ -1,0 +1,7 @@
+﻿<view wx:if="{{visible}}" class="ui-popup-mask" style="z-index: {{zIndex}};" bindtap="onMaskTap">
+  <view class="ui-popup-panel ui-popup-panel--{{placement}} class" catchtap="stop">
+    <slot name="content"></slot>
+    <slot></slot>
+    <view wx:if="{{closeBtn}}" class="ui-popup-close" bindtap="close">x</view>
+  </view>
+</view>

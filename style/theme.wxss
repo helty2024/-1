@@ -1,0 +1,61 @@
+/* 主题定制 */
+page {
+  --td-brand-color: #d3ad5d;
+  --td-brand-color-light: rgba(211, 173, 93, 0.16);
+  --td-bg-color-page: #050403;
+  --td-bg-color-container: #090806;
+  --td-border-color: rgba(231, 192, 104, 0.52);
+  --td-border-level-1-color: rgba(231, 192, 104, 0.52);
+  --td-text-color-primary: #ffffff;
+  --td-text-color-secondary: rgba(255, 255, 255, 0.78);
+}
+
+.t-input {
+  --td-input-placeholder-text-color: rgba(255, 255, 255, 0.58);
+  --td-input-text-color: #ffffff;
+}
+
+.t-tab-bar {
+  --td-tab-bar-color: rgba(255, 255, 255, 0.82);
+  --td-tab-bar-active-color: #ffffff;
+  --td-tab-bar-bg-color: #050403;
+  --td-tab-bar-border-color: rgba(231, 192, 104, 0.52);
+  --td-tab-bar-active-bg: rgba(211, 173, 93, 0.16);
+}
+
+.t-cascader {
+  --td-cascader-active-color: #d3ad5d;
+}
+
+.t-switch {
+  --td-switch-checked-color: #34c759;
+}
+
+.t-button {
+  --td-button-font-weight: 500;
+  --td-button-medium-font-size: 32rpx;
+  --td-button-default-color: #fff;
+  --td-button-default-bg-color: #9b6a23;
+  --td-button-default-border-color: #d3ad5d;
+  --td-button-default-disabled-color: #fff;
+  --td-button-default-disabled-bg: rgba(255, 255, 255, 0.18);
+  --td-button-default-disabled-border-color: rgba(231, 192, 104, 0.36);
+  --td-button-default-active-bg-color: #8a5d20;
+  --td-button-default-active-border-color: #d3ad5d;
+}
+
+.t-textarea {
+  --td-textarea-placeholder-color: rgba(255, 255, 255, 0.58);
+}
+
+.t-checkbox {
+  --td-checkbox-icon-checked-color: #d3ad5d;
+}
+
+.dialog__button-confirm {
+  color: #ffffff !important;
+}
+
+.dialog__button-cancel {
+  color: rgba(255, 255, 255, 0.72) !important;
+}

@@ -1,0 +1,3 @@
+<view class="ui-cell-group">
+  <slot></slot>
+</view>

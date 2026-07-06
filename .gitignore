@@ -1,0 +1,31 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Local/private IDE config
+project.private.config.json
+.idea/
+.vscode/
+
+# Node dependencies and generated caches
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+
+# Codex / automation working files
+.superpowers/
+midscene_run/
+
+# WeChat DevTools generated metadata
+*.map
+miniprogram_npm/**/.wechatide.ib.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp

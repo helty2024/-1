@@ -1,0 +1,6 @@
+<view class="ui-badge-wrap class">
+  <slot></slot>
+  <view wx:if="{{count}}" class="ui-badge" style="background: {{color}};">
+    {{count > maxCount ? maxCount + '+' : count}}
+  </view>
+</view>

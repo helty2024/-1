@@ -1,0 +1,13 @@
+﻿<view class="ui-cell {{bordered ? 'ui-cell--bordered' : ''}} class t-class">
+  <view class="ui-cell__left t-class-left">
+    <slot name="left-icon"></slot>
+    <view class="ui-cell__main">
+      <view class="ui-cell__title t-class-title">{{title}}</view>
+      <view wx:if="{{note}}" class="ui-cell__note t-class-note">{{note}}</view>
+    </view>
+  </view>
+  <view class="ui-cell__right">
+    <slot name="right-icon"></slot>
+    <text wx:if="{{arrow}}" class="ui-cell__arrow">›</text>
+  </view>
+</view>

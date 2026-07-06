@@ -1,0 +1,8 @@
+<view class="ui-divider class">
+  <view class="ui-divider__line"></view>
+  <view class="ui-divider__content t-class-content">
+    <slot name="content"></slot>
+    <slot></slot>
+  </view>
+  <view class="ui-divider__line"></view>
+</view>

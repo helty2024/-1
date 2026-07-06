@@ -1,0 +1,54 @@
+<view class="page">
+  <view class="hero">
+    <image class="hero-bg" src="/images/brand/cooperation-bg.jpg" mode="aspectFill" />
+    <view class="hero-overlay"></view>
+    <view class="hero-content">
+      <view class="eyebrow">代理合作 · 申请对接</view>
+      <view class="brand">申请中康参芝合作</view>
+      <view class="subtitle">面向代理商、团长、门店和电商渠道开放合作咨询，获取产品货盘、渠道政策与素材支持。</view>
+      <view class="hero-actions">
+        <button class="btn btn-primary" bindtap="copyContact">复制合作意向</button>
+        <button class="btn btn-ghost" bindtap="switchToProducts">查看产品货盘</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">适合这些渠道申请合作</text>
+      <text class="section-sub">根据你的现有渠道和客群，匹配适合的产品组合、拿货方式和推广素材。</text>
+    </view>
+    <view class="card-grid">
+      <view class="info-card" wx:for="{{contactCards}}" wx:key="title">
+        <text class="info-title">{{item.title}}</text>
+        <text class="info-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">合作后可获取的支持</text>
+      <text class="section-sub">从产品资料到销售素材，从政策说明到专人对接，帮助合作伙伴更快启动。</text>
+    </view>
+    <view class="card-grid">
+      <view class="benefit-card" wx:for="{{benefitCards}}" wx:key="title">
+        <text class="benefit-title">{{item.title}}</text>
+        <text class="benefit-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="cta-card">
+      <view class="cta-copy">
+        <text class="cta-title">提交合作意向</text>
+        <text class="cta-desc">{{contactText}}</text>
+      </view>
+      <view class="cta-actions">
+        <button class="btn btn-primary" bindtap="copyContact">复制合作意向</button>
+        <button class="btn btn-ghost" bindtap="switchToHome">返回首页</button>
+      </view>
+    </view>
+  </view>
+</view>

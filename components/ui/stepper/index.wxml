@@ -1,0 +1,5 @@
+<view class="ui-stepper {{classname}}">
+  <view class="ui-stepper__btn" bindtap="onMinus">-</view>
+  <input class="ui-stepper__input" type="number" value="{{current}}" bindinput="onInput" bindblur="onBlur" />
+  <view class="ui-stepper__btn" bindtap="onPlus">+</view>
+</view>

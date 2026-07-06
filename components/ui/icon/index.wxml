@@ -1,0 +1,3 @@
+<text class="ui-icon class" style="font-size: {{size}}; color: {{color}}; {{customStyle}}">
+  {{glyph}}
+</text>

@@ -1,0 +1,7 @@
+.ui-avatar {
+  display: block;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  object-fit: cover;
+}

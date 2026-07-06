@@ -1,0 +1,41 @@
+.ui-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 96rpx;
+  padding: 20rpx 24rpx;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.ui-cell--bordered {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ui-cell__left,
+.ui-cell__right {
+  display: flex;
+  align-items: center;
+}
+
+.ui-cell__main {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.ui-cell__title {
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.ui-cell__note {
+  font-size: 22rpx;
+  color: #7a7a7a;
+}
+
+.ui-cell__arrow {
+  margin-left: 12rpx;
+  color: #999;
+  font-size: 30rpx;
+}

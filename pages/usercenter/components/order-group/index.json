@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-cell": "/components/ui/cell/index",
+    "t-cell-group": "/components/ui/cell-group/index",
+    "t-badge": "/components/ui/badge/index",
+    "t-icon": "/components/ui/icon/index"
+  }
+}

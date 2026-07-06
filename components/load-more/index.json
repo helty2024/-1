@@ -1,0 +1,7 @@
+{
+    "component": true,
+    "usingComponents": {
+        "t-loading": "/components/ui/loading/index",
+        "t-divider": "/components/ui/divider/index"
+    }
+}

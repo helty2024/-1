@@ -1,0 +1,4 @@
+.ui-cell-group {
+  overflow: hidden;
+  border-radius: 16rpx;
+}

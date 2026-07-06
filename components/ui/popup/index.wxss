@@ -1,0 +1,38 @@
+.ui-popup-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+}
+
+.ui-popup-panel {
+  position: absolute;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.ui-popup-panel--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.ui-popup-panel--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 78vw;
+  border-radius: 20rpx 0 0 20rpx;
+}
+
+.ui-popup-close {
+  position: absolute;
+  top: 16rpx;
+  right: 18rpx;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+}

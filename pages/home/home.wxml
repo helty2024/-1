@@ -1,0 +1,108 @@
+<view class="page">
+  <view class="hero">
+    <image class="hero-bg" src="/images/brand/home-bg.jpeg" mode="aspectFill" />
+    <view class="hero-overlay"></view>
+    <view class="hero-content">
+      <view class="eyebrow">长白山人参渠道合作</view>
+      <view class="brand">中康参芝</view>
+      <view class="subtitle">让长白山的天赐资源走向世界。</view>
+      <view class="hero-stats">
+        <view class="stat" wx:for="{{heroStats}}" wx:key="label">
+          <text class="stat-value">{{item.value}}</text>
+          <text class="stat-label">{{item.label}}</text>
+        </view>
+      </view>
+      <view class="hero-actions">
+        <button class="btn btn-primary" bindtap="copyJoinInfo">复制合作信息</button>
+        <button class="btn btn-ghost" bindtap="switchToJoin">查看合作页</button>
+      </view>
+    </view>
+
+    <view class="hero-panel">
+      <image class="panel-image" src="/images/brand/authority-portrait.jpg" mode="aspectFit" />
+      <view class="panel-body">
+        <view class="panel-title">张家新 · 中康参芝 CEO</view>
+        <view class="panel-desc">企业 CEO、合作对接与渠道推进总负责人。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">兼具实战与战略的领军人</text>
+      <text class="section-sub">用多维社会身份与产业履历建立第一层信任。</text>
+    </view>
+    <view class="trust-grid">
+      <view class="trust-card" wx:for="{{trustCards}}" wx:key="title">
+        <image class="trust-image" src="{{item.image}}" mode="{{item.mode}}" />
+        <view class="trust-body">
+          <text class="trust-title">{{item.title}}</text>
+          <text class="trust-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">产品力四证据</text>
+      <text class="section-sub">原料、年份、检测、链路四层一起讲，不单靠一句广告词。</text>
+    </view>
+    <view class="evidence-grid">
+      <view class="evidence-card" wx:for="{{evidenceCards}}" wx:key="title">
+        <text class="evidence-no">{{item.no}}</text>
+        <text class="evidence-title">{{item.title}}</text>
+        <text class="evidence-desc">{{item.desc}}</text>
+      </view>
+    </view>
+    <view class="evidence-visual">
+      <image class="evidence-img" src="/images/brand/evidence-trace.jpg" mode="aspectFill" />
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">推荐产品</text>
+      <text class="section-sub">让长白山的天赐资源走向世界。</text>
+    </view>
+    <view class="product-grid">
+      <view class="product-card" wx:for="{{products}}" wx:key="name">
+        <image class="product-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="product-body">
+          <text class="product-name">{{item.name}}</text>
+          <text class="product-note">{{item.note}}</text>
+        </view>
+      </view>
+    </view>
+    <button class="wide-btn" bindtap="switchToProducts">去产品页看完整货盘</button>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">合作路径</text>
+      <text class="section-sub">三步走，减少理解成本。</text>
+    </view>
+    <view class="step-list">
+      <view class="step-card" wx:for="{{steps}}" wx:key="title">
+        <text class="step-no">0{{index + 1}}</text>
+        <view class="step-copy">
+          <text class="step-title">{{item.title}}</text>
+          <text class="step-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="cta-card">
+      <view class="cta-copy">
+        <text class="cta-title">合作意向</text>
+        <text class="cta-desc">复制合作信息，下一步进入合作页，接收代理资料、素材和政策。</text>
+      </view>
+      <view class="cta-actions">
+        <button class="btn btn-primary" bindtap="copyJoinInfo">复制合作信息</button>
+        <button class="btn btn-ghost" bindtap="switchToStrength">看品牌实力</button>
+      </view>
+    </view>
+  </view>
+</view>

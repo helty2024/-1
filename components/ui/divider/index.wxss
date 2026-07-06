@@ -1,0 +1,16 @@
+.ui-divider {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.ui-divider__line {
+  flex: 1;
+  height: 1px;
+  background: rgba(201, 165, 73, 0.35);
+}
+
+.ui-divider__content {
+  color: #f3ecd9;
+  font-size: 24rpx;
+}

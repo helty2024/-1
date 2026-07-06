@@ -1,0 +1,25 @@
+@import 'style/iconfont.wxss';
+
+@import 'style/theme.wxss';
+
+.cell--noborder .t-cell::after {
+  border-bottom: none !important;
+}
+
+page {
+  background: #050403;
+  color: #fff;
+  --td-border-color: rgba(231, 192, 104, 0.52);
+  --td-border-level-1-color: rgba(231, 192, 104, 0.52);
+  --td-component-border: rgba(231, 192, 104, 0.52);
+}
+
+view,
+text,
+image,
+button,
+scroll-view,
+swiper,
+swiper-item {
+  border-color: rgba(231, 192, 104, 0.52) !important;
+}

@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-popup": "/components/ui/popup/index",
+    "goods-card": "../../components/goods-card/index"
+  }
+}

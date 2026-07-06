@@ -1,0 +1,16 @@
+<view class="custom-tab-bar">
+	<view
+		wx:for="{{list}}"
+		wx:for-item="item"
+		wx:for-index="index"
+		wx:key="index"
+		class="custom-tab-bar-item {{active === index ? 'is-active' : ''}}"
+		data-index="{{index}}"
+		bindtap="onChange"
+	>
+		<view class="custom-tab-bar-wrapper">
+			<t-icon name="{{item.icon}}" size="48rpx" color="{{active === index ? '#d8b15b' : '#fff'}}" />
+			<view class="text">{{ item.text }}</view>
+		</view>
+	</view>
+</view>
