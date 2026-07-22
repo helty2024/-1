@@ -51,11 +51,12 @@
         wx:key="title"
         data-form-type="{{item.formType}}"
         data-content-type="{{item.contentType}}"
+        data-admin-path="{{item.adminPath}}"
         bindtap="openApplication"
       >
         <text class="application-title">{{item.title}}</text>
         <text class="application-desc">{{item.desc}}</text>
-        <text class="application-link">{{item.formType ? '填写表单' : '查看政策'}}</text>
+        <text class="application-link">{{item.adminPath ? '进入管理' : (item.formType ? '填写表单' : '查看政策')}}</text>
       </view>
     </view>
   </view>

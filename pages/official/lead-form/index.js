@@ -1,4 +1,5 @@
 const { getForm } = require('../data/forms');
+const { addLead } = require('../data/leads');
 
 Page({
   data: {
@@ -42,14 +43,7 @@ Page({
       return;
     }
 
-    const leads = wx.getStorageSync('officialLeads') || [];
-    leads.unshift({
-      type,
-      title: form.navTitle,
-      values,
-      createdAt: new Date().toISOString(),
-    });
-    wx.setStorageSync('officialLeads', leads);
+    addLead(type, form.navTitle, values);
 
     wx.showToast({
       title: form.successText,

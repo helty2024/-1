@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="hero">
+    <view class="eyebrow">后台雏形</view>
+    <view class="title">线索管理</view>
+    <view class="subtitle">当前读取小程序本地提交记录，后续接入后台接口后保持同一套列表、筛选、跟进和导出逻辑。</view>
+    <view class="summary-grid">
+      <view class="summary-card">
+        <text class="summary-value">{{summary.total}}</text>
+        <text class="summary-label">全部线索</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-value">{{summary.newCount}}</text>
+        <text class="summary-label">新线索</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-value">{{summary.qualifiedCount}}</text>
+        <text class="summary-label">重点跟进</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="filters">
+    <picker mode="selector" range="{{typeFilters}}" range-key="label" value="{{typeIndex}}" bindchange="onTypeChange">
+      <view class="filter-control">{{typeFilters[typeIndex].label}}</view>
+    </picker>
+    <picker mode="selector" range="{{statusFilters}}" range-key="label" value="{{statusIndex}}" bindchange="onStatusChange">
+      <view class="filter-control">{{statusFilters[statusIndex].label}}</view>
+    </picker>
+  </view>
+
+  <view class="empty" wx:if="{{!visibleLeads.length}}">
+    <text class="empty-title">暂无线索</text>
+    <text class="empty-desc">可以先提交一条代理申请，用来测试后台管理链路。</text>
+    <button class="empty-btn" bindtap="openForm">新增测试线索</button>
+  </view>
+
+  <view class="lead-list" wx:else>
+    <view class="lead-card" wx:for="{{visibleLeads}}" wx:key="id" data-id="{{item.id}}" bindtap="openLead">
+      <view class="lead-top">
+        <text class="lead-type">{{item.typeLabel}}</text>
+        <text class="lead-status status-{{item.status}}">{{item.statusLabel}}</text>
+      </view>
+      <text class="lead-name">{{item.displayName}} · {{item.displayPhone}}</text>
+      <text class="lead-desc">{{item.displayDesc || '未填写渠道信息'}}</text>
+      <text class="lead-time">{{item.displayTime}}</text>
+    </view>
+  </view>
+</view>

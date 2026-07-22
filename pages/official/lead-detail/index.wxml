@@ -1,0 +1,47 @@
+<view class="page" wx:if="{{lead}}">
+  <view class="hero">
+    <view class="eyebrow">{{lead.typeLabel}}</view>
+    <view class="title">{{lead.values.name || '未填写姓名'}}</view>
+    <view class="subtitle">{{lead.values.phone || '未填写手机号'}} · {{lead.displayTime}}</view>
+    <view class="status-row">
+      <text class="status-label">当前状态</text>
+      <picker mode="selector" range="{{statusOptions}}" range-key="label" value="{{statusIndex}}" bindchange="onStatusChange">
+        <view class="status-picker">{{statusOptions[statusIndex].label}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">提交信息</text>
+    </view>
+    <view class="field-list">
+      <view class="field-item" wx:for="{{fields}}" wx:key="key">
+        <text class="field-label">{{item.label}}</text>
+        <text class="field-value">{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">跟进备注</text>
+      <text class="section-sub">当前保存在本地。接后台后会同步为线索跟进记录。</text>
+    </view>
+    <textarea
+      class="note-input"
+      placeholder="填写沟通情况、客户等级、下次跟进时间"
+      placeholder-class="placeholder"
+      value="{{followNote}}"
+      bindinput="onNoteInput"
+    />
+    <button class="save-btn" bindtap="saveNote">保存备注</button>
+  </view>
+
+  <view class="section">
+    <view class="action-grid">
+      <button class="action-primary" bindtap="copyExport">复制导出文本</button>
+      <button class="action-ghost" bindtap="deleteLead">删除测试线索</button>
+    </view>
+  </view>
+</view>

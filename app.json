@@ -48,7 +48,7 @@
     {
       "root": "pages/official",
       "name": "official",
-      "pages": ["product-detail/index", "content/index", "lead-form/index"]
+      "pages": ["product-detail/index", "content/index", "lead-form/index", "lead-list/index", "lead-detail/index"]
     }
   ],
   "tabBar": {

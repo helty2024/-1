@@ -15,6 +15,7 @@ Page({
       { title: '投资合作', desc: '项目投资、资源合作、渠道共建、品牌运营', formType: 'investment' },
       { title: '普通咨询', desc: '产品、品牌背书、资质、合作案例咨询', formType: 'consult' },
       { title: '招商政策', desc: '查看合作模式、代理权益、扶持政策、常见问题', contentType: 'join' },
+      { title: '线索管理', desc: '查看、筛选、跟进、复制导出本地测试线索', adminPath: '/pages/official/lead-list/index' },
     ],
     contactText: '我想申请中康参芝代理合作资料，了解产品货盘、拿货政策、授权方式和渠道支持。',
   },
@@ -42,7 +43,12 @@ Page({
   },
 
   openApplication(event) {
-    const { formType, contentType } = event.currentTarget.dataset;
+    const { formType, contentType, adminPath } = event.currentTarget.dataset;
+    if (adminPath) {
+      wx.navigateTo({ url: adminPath });
+      return;
+    }
+
     if (formType) {
       wx.navigateTo({
         url: `/pages/official/lead-form/index?type=${formType}`,
