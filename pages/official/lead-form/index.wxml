@@ -1,0 +1,57 @@
+<view class="page" wx:if="{{form}}">
+  <view class="hero">
+    <view class="eyebrow">{{form.label}}</view>
+    <view class="title">{{form.title}}</view>
+    <view class="subtitle">{{form.subtitle}}</view>
+  </view>
+
+  <view class="form-card">
+    <view class="field" wx:for="{{form.fields}}" wx:key="key">
+      <view class="field-label">
+        <text>{{item.label}}</text>
+        <text class="required" wx:if="{{item.required}}">必填</text>
+      </view>
+
+      <input
+        wx:if="{{item.type == 'text' || item.type == 'number'}}"
+        class="field-control"
+        type="{{item.type}}"
+        placeholder="{{item.placeholder}}"
+        placeholder-class="placeholder"
+        data-key="{{item.key}}"
+        value="{{values[item.key]}}"
+        bindinput="onInput"
+      />
+
+      <textarea
+        wx:elif="{{item.type == 'textarea'}}"
+        class="field-control textarea"
+        placeholder="{{item.placeholder}}"
+        placeholder-class="placeholder"
+        data-key="{{item.key}}"
+        value="{{values[item.key]}}"
+        bindinput="onInput"
+      />
+
+      <picker
+        wx:else
+        mode="selector"
+        range="{{item.options}}"
+        data-index="{{index}}"
+        bindchange="onPickerChange"
+      >
+        <view class="field-control picker-value {{values[item.key] ? '' : 'placeholder-text'}}">
+          {{values[item.key] || '请选择'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="notice">
+    提交信息当前先保存到小程序本地线索列表，后续接入后台后切换为云端提交、筛选、跟进和导出。
+  </view>
+
+  <view class="footer-actions">
+    <button class="submit-btn" bindtap="submitLead">{{form.submitText}}</button>
+  </view>
+</view>

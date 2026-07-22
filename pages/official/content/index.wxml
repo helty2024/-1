@@ -1,0 +1,83 @@
+<view class="page" wx:if="{{content}}">
+  <view class="hero">
+    <view class="eyebrow">{{content.label}}</view>
+    <view class="title">{{content.title}}</view>
+    <view class="subtitle">{{content.subtitle}}</view>
+    <view class="stats">
+      <view class="stat" wx:for="{{content.stats}}" wx:key="label">
+        <text class="stat-value">{{item.value}}</text>
+        <text class="stat-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:for="{{content.sections}}" wx:key="title">
+    <view class="section-head">
+      <text class="section-title">{{item.title}}</text>
+      <text class="section-body">{{item.body}}</text>
+    </view>
+    <view class="card-grid" wx:if="{{item.cards && item.cards.length}}">
+      <view class="info-card" wx:for="{{item.cards}}" wx:for-item="card" wx:key="title">
+        <text class="card-title">{{card.title}}</text>
+        <text class="card-desc">{{card.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{content.timeline && content.timeline.length}}">
+    <view class="section-head">
+      <text class="section-title">发展历程</text>
+    </view>
+    <view class="timeline">
+      <view class="timeline-item" wx:for="{{content.timeline}}" wx:key="year">
+        <text class="timeline-year">{{item.year}}</text>
+        <text class="timeline-text">{{item.text}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{content.cases && content.cases.length}}">
+    <view class="section-head">
+      <text class="section-title">合作案例</text>
+      <text class="section-body">以下案例用于展示品牌合作基础，更多信息以后可接入后台维护。</text>
+    </view>
+    <view class="card-grid">
+      <view class="info-card" wx:for="{{content.cases}}" wx:key="name">
+        <text class="card-title">{{item.name}}</text>
+        <text class="card-desc">合作类型：{{item.type}}</text>
+        <text class="card-desc">合作成果：{{item.result}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{content.faq && content.faq.length}}">
+    <view class="section-head">
+      <text class="section-title">常见问题</text>
+    </view>
+    <view class="faq-list">
+      <view class="faq-item" wx:for="{{content.faq}}" wx:key="q">
+        <text class="faq-q">{{item.q}}</text>
+        <text class="faq-a">{{item.a}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-actions">
+    <button
+      class="action-primary"
+      data-url="{{content.primaryAction.url}}"
+      data-tab="{{content.primaryAction.tab}}"
+      bindtap="handleAction"
+    >
+      {{content.primaryAction.text}}
+    </button>
+    <button
+      class="action-ghost"
+      data-url="{{content.secondaryAction.url}}"
+      data-tab="{{content.secondaryAction.tab}}"
+      bindtap="handleAction"
+    >
+      {{content.secondaryAction.text}}
+    </button>
+  </view>
+</view>

@@ -40,13 +40,34 @@
   </view>
 
   <view class="section">
+    <view class="section-head">
+      <text class="section-title">提交与查看</text>
+      <text class="section-sub">根据合作目的进入对应表单或政策详情，后续后台会统一管理这些线索。</text>
+    </view>
+    <view class="application-grid">
+      <view
+        class="application-card"
+        wx:for="{{applicationLinks}}"
+        wx:key="title"
+        data-form-type="{{item.formType}}"
+        data-content-type="{{item.contentType}}"
+        bindtap="openApplication"
+      >
+        <text class="application-title">{{item.title}}</text>
+        <text class="application-desc">{{item.desc}}</text>
+        <text class="application-link">{{item.formType ? '填写表单' : '查看政策'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
     <view class="cta-card">
       <view class="cta-copy">
         <text class="cta-title">提交合作意向</text>
         <text class="cta-desc">{{contactText}}</text>
       </view>
       <view class="cta-actions">
-        <button class="btn btn-primary" bindtap="copyContact">复制合作意向</button>
+        <button class="btn btn-primary" data-form-type="agent" bindtap="openApplication">填写代理申请</button>
         <button class="btn btn-ghost" bindtap="switchToHome">返回首页</button>
       </view>
     </view>

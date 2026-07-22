@@ -349,3 +349,34 @@ page {
     linear-gradient(180deg, rgba(5, 4, 3, 0.12) 0%, rgba(5, 4, 3, 0.38) 58%, rgba(5, 4, 3, 0.74) 100%),
     linear-gradient(135deg, rgba(214, 171, 83, 0.14) 0%, rgba(5, 4, 3, 0.08) 48%, rgba(5, 4, 3, 0.42) 100%);
 }
+
+.detail-grid {
+  display: grid;
+  gap: 14rpx;
+}
+
+.detail-card {
+  padding: 18rpx;
+  border: 1px solid rgba(231, 192, 104, 0.58);
+  border-radius: 18rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.045));
+  box-shadow: 0 20rpx 56rpx rgba(0, 0, 0, 0.22);
+}
+
+.detail-title,
+.detail-desc {
+  display: block;
+}
+
+.detail-title {
+  font-size: 28rpx;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.detail-desc {
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}

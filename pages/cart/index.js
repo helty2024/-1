@@ -23,6 +23,11 @@ Page({
       '品质追溯',
       '渠道扶持',
     ],
+    detailLinks: [
+      { title: '企业介绍', desc: '基础信息、公司简介、发展历程', type: 'company' },
+      { title: '品牌背书', desc: '科研、非遗、荣誉资质、合作案例', type: 'brand' },
+      { title: '投资合作', desc: '资源、项目、商业模式、合作需求', type: 'investment' },
+    ],
   },
 
   onShow() {
@@ -45,5 +50,18 @@ Page({
 
   switchToJoin() {
     wx.switchTab({ url: '/pages/usercenter/index' });
+  },
+
+  openOfficial(event) {
+    const { type } = event.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/official/content/index?type=${type}`,
+    });
+  },
+
+  openConsultForm() {
+    wx.navigateTo({
+      url: '/pages/official/lead-form/index?type=consult',
+    });
   },
 });

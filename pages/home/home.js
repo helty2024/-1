@@ -69,6 +69,12 @@
       { title: '再看产品', desc: '产品卖点、销售方式、消费人群，给您现成卖货思路。' },
       { title: '最后合作', desc: '社群一对一对接，全程跟进落地合作事宜。' },
     ],
+    officialLinks: [
+      { title: '企业介绍', desc: '公司简介、品牌故事、发展历程', type: 'company' },
+      { title: '品牌背书', desc: '基地、科研、非遗、荣誉、合作案例', type: 'brand' },
+      { title: '招商政策', desc: '代理对象、合作模式、扶持政策', type: 'join' },
+      { title: '投资合作', desc: '项目方向、商业模式、资源需求', type: 'investment' },
+    ],
   },
 
   onShow() {
@@ -100,5 +106,12 @@
 
   switchToJoin() {
     wx.switchTab({ url: '/pages/usercenter/index' });
+  },
+
+  openOfficial(event) {
+    const { type } = event.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/official/content/index?type=${type}`,
+    });
   },
 });

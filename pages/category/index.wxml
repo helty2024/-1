@@ -3,9 +3,9 @@
     <image class="hero-bg" src="/images/brand/product-bg.jpg" mode="aspectFill" />
     <view class="hero-overlay"></view>
     <view class="hero-content">
-      <view class="eyebrow">代理合作 · 渠道货盘</view>
-      <view class="brand">中康参芝主推货盘</view>
-      <view class="subtitle">围绕长白山参资源，提供适合私域、门店、团购和礼赠的产品组合。</view>
+      <view class="eyebrow">明星产品 · 招商货盘</view>
+      <view class="brand">中康参芝明星产品</view>
+      <view class="subtitle">围绕长白山参源、草本饮品、高端礼赠和渠道动销，提供适合代理商承接的产品组合。</view>
       <view class="hero-stats">
         <view class="stat" wx:for="{{heroStats}}" wx:key="label">
           <text class="stat-value">{{item.value}}</text>
@@ -13,19 +13,19 @@
         </view>
       </view>
       <view class="hero-actions">
-        <button class="btn btn-primary" bindtap="switchToStrength">看品牌实力</button>
-        <button class="btn btn-ghost" bindtap="switchToJoin">进群拿资料</button>
+        <button class="btn btn-primary" bindtap="switchToStrength">看品牌背书</button>
+        <button class="btn btn-ghost" bindtap="switchToJoin">申请合作</button>
       </view>
     </view>
   </view>
 
   <view class="section">
     <view class="section-head">
-      <text class="section-title">适合代理商主推的产品组合</text>
-      <text class="section-sub">从低门槛复购到高客单礼赠，覆盖引流、转化、复购和团购需求。</text>
+      <text class="section-title">适合代理商主推的明星产品</text>
+      <text class="section-sub">从高频饮品、源头鲜参到高客单礼盒，覆盖引流、复购、礼赠和企业团购需求。</text>
     </view>
     <view class="product-grid">
-      <view class="product-card" wx:for="{{products}}" wx:key="name">
+      <view class="product-card" wx:for="{{products}}" wx:key="slug" data-slug="{{item.slug}}" bindtap="openProduct">
         <image class="product-image" src="{{item.image}}" mode="aspectFill" />
         <view class="product-body">
           <view class="product-topline">
@@ -34,6 +34,7 @@
           </view>
           <text class="product-note">{{item.note}}</text>
           <text class="product-scene">{{item.scene}}</text>
+          <view class="product-link">查看产品招商详情</view>
         </view>
       </view>
     </view>
@@ -42,7 +43,7 @@
   <view class="section">
     <view class="section-head">
       <text class="section-title">代理商可承接的销售场景</text>
-      <text class="section-sub">不同渠道可以根据自己的客群，选择适合的产品组合和切入方式。</text>
+      <text class="section-sub">不同渠道可根据客群和资源，选择适合的产品组合、话术和切入方式。</text>
     </view>
     <view class="scenario-grid">
       <view class="scenario-card" wx:for="{{scenarioCards}}" wx:key="title">
@@ -55,11 +56,11 @@
   <view class="section">
     <view class="cta-card">
       <view class="cta-copy">
-        <text class="cta-title">申请代理合作资料</text>
+        <text class="cta-title">申请明星产品代理资料</text>
         <text class="cta-desc">了解产品货盘、渠道政策、拿货方式、素材支持和后续对接流程。</text>
       </view>
       <view class="cta-actions">
-        <button class="btn btn-primary" bindtap="switchToStrength">查看公司实力</button>
+        <button class="btn btn-primary" bindtap="switchToJoin">进入合作页</button>
         <button class="btn btn-ghost" bindtap="copyJoinInfo">复制合作意向</button>
       </view>
     </view>

@@ -45,6 +45,10 @@
       {
         "type": "file",
         "value": "jsconfig.json"
+      },
+      {
+        "type": "folder",
+        "value": "docs"
       }
     ],
     "include": []

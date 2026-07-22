@@ -266,3 +266,42 @@ page {
   border-width: 1px;
   border-style: solid;
 }
+
+.application-grid {
+  display: grid;
+  gap: 14rpx;
+}
+
+.application-card {
+  padding: 18rpx;
+  border: 1px solid rgba(231, 192, 104, 0.58);
+  border-radius: 18rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.045));
+  box-shadow: 0 20rpx 56rpx rgba(0, 0, 0, 0.22);
+}
+
+.application-title,
+.application-desc,
+.application-link {
+  display: block;
+}
+
+.application-title {
+  font-size: 28rpx;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #fff;
+}
+
+.application-desc {
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.application-link {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #f2cf83;
+}

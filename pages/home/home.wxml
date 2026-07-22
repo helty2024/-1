@@ -45,6 +45,20 @@
 
   <view class="section">
     <view class="section-head">
+      <text class="section-title">正式内容入口</text>
+      <text class="section-sub">从首页进入企业、背书、招商、投资合作详情，后续后台内容也会按这些模块维护。</text>
+    </view>
+    <view class="official-grid">
+      <view class="official-card" wx:for="{{officialLinks}}" wx:key="type" data-type="{{item.type}}" bindtap="openOfficial">
+        <text class="official-title">{{item.title}}</text>
+        <text class="official-desc">{{item.desc}}</text>
+        <text class="official-link">查看详情</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
       <text class="section-title">产品力四证据</text>
       <text class="section-sub">原料、年份、检测、链路四层一起讲，不单靠一句广告词。</text>
     </view>

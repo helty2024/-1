@@ -43,6 +43,19 @@
   </view>
 
   <view class="section">
+    <view class="section-head">
+      <text class="section-title">背书详情入口</text>
+      <text class="section-sub">点击查看企业介绍、品牌背书和投资合作详情，方便代理商、渠道商、投资方快速了解合作基础。</text>
+    </view>
+    <view class="detail-grid">
+      <view class="detail-card" wx:for="{{detailLinks}}" wx:key="type" data-type="{{item.type}}" bindtap="openOfficial">
+        <text class="detail-title">{{item.title}}</text>
+        <text class="detail-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
     <view class="tag-row">
       <text class="trust-tag" wx:for="{{trustLines}}" wx:key="*this">{{item}}</text>
     </view>
@@ -56,7 +69,7 @@
       </view>
       <view class="cta-actions">
         <button class="btn btn-primary" bindtap="switchToProducts">查看可代理产品</button>
-        <button class="btn btn-ghost" bindtap="switchToJoin">申请代理资料</button>
+        <button class="btn btn-ghost" bindtap="openConsultForm">提交咨询</button>
       </view>
     </view>
   </view>

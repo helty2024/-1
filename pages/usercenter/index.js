@@ -10,6 +10,12 @@ Page({
       { title: '合作政策说明', desc: '了解代理门槛、拿货政策、渠道权益和后续支持方式。' },
       { title: '销售素材支持', desc: '提供适合朋友圈、社群、直播间和平台详情页使用的内容素材。' },
     ],
+    applicationLinks: [
+      { title: '代理申请', desc: '区域代理、渠道代理、私域团长、电商运营', formType: 'agent' },
+      { title: '投资合作', desc: '项目投资、资源合作、渠道共建、品牌运营', formType: 'investment' },
+      { title: '普通咨询', desc: '产品、品牌背书、资质、合作案例咨询', formType: 'consult' },
+      { title: '招商政策', desc: '查看合作模式、代理权益、扶持政策、常见问题', contentType: 'join' },
+    ],
     contactText: '我想申请中康参芝代理合作资料，了解产品货盘、拿货政策、授权方式和渠道支持。',
   },
 
@@ -33,5 +39,19 @@ Page({
 
   switchToProducts() {
     wx.switchTab({ url: '/pages/category/index' });
+  },
+
+  openApplication(event) {
+    const { formType, contentType } = event.currentTarget.dataset;
+    if (formType) {
+      wx.navigateTo({
+        url: `/pages/official/lead-form/index?type=${formType}`,
+      });
+      return;
+    }
+
+    wx.navigateTo({
+      url: `/pages/official/content/index?type=${contentType}`,
+    });
   },
 });

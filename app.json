@@ -44,6 +44,11 @@
       "root": "pages/promotion",
       "name": "promotion",
       "pages": ["promotion-detail/index"]
+    },
+    {
+      "root": "pages/official",
+      "name": "official",
+      "pages": ["product-detail/index", "content/index", "lead-form/index"]
     }
   ],
   "tabBar": {

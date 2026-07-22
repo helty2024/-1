@@ -517,3 +517,45 @@ page {
     linear-gradient(135deg, rgba(214, 171, 83, 0.16) 0%, rgba(5, 4, 3, 0.08) 48%, rgba(5, 4, 3, 0.42) 100%);
 }
 
+.official-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+}
+
+.official-card {
+  min-height: 188rpx;
+  padding: 18rpx;
+  border: 1px solid rgba(231, 192, 104, 0.58);
+  border-radius: 18rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.045));
+  box-shadow: 0 20rpx 56rpx rgba(0, 0, 0, 0.24);
+}
+
+.official-title,
+.official-desc,
+.official-link {
+  display: block;
+}
+
+.official-title {
+  font-size: 28rpx;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #fff;
+}
+
+.official-desc {
+  margin-top: 8rpx;
+  min-height: 68rpx;
+  font-size: 22rpx;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.official-link {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #f2cf83;
+}
+

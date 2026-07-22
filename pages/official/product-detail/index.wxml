@@ -1,0 +1,88 @@
+<view class="page" wx:if="{{product}}">
+  <view class="hero">
+    <image class="hero-image" src="{{product.images.main}}" mode="aspectFill" />
+    <view class="hero-overlay"></view>
+    <view class="hero-copy">
+      <view class="eyebrow">{{product.category}}</view>
+      <view class="title">{{product.name}}</view>
+      <view class="subtitle">{{product.subtitle}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">产品定位</view>
+    <view class="copy-card">
+      <text>{{product.position}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">核心卖点</view>
+    <view class="point-list">
+      <view class="point-card" wx:for="{{product.sellingPoints}}" wx:key="*this">
+        <text class="point-no">0{{index + 1}}</text>
+        <text class="point-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section image-section">
+    <image class="wide-image" src="{{product.images.material}}" mode="aspectFill" />
+  </view>
+
+  <view class="section">
+    <view class="section-title">原料与工艺</view>
+    <view class="split-card">
+      <view class="split-item">
+        <text class="split-title">原料说明</text>
+        <text class="split-desc">{{product.material}}</text>
+      </view>
+      <view class="split-item">
+        <text class="split-title">工艺说明</text>
+        <text class="split-desc">{{product.craft}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">规格参数</view>
+    <view class="spec-card">
+      <view class="spec-row" wx:for="{{product.specs}}" wx:key="label">
+        <text class="spec-label">{{item.label}}</text>
+        <text class="spec-value">{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section image-section">
+    <image class="wide-image" src="{{product.images.scene}}" mode="aspectFill" />
+  </view>
+
+  <view class="section">
+    <view class="section-title">使用场景</view>
+    <view class="tag-grid">
+      <text class="tag" wx:for="{{product.scenarios}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">招商价值</view>
+    <view class="value-list">
+      <view class="value-card" wx:for="{{product.agencyValue}}" wx:key="*this">
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="notice-card">
+      <text class="notice-title">合规提示</text>
+      <text class="notice-desc">{{product.compliance}}</text>
+    </view>
+  </view>
+
+  <view class="bottom-actions">
+    <button class="action-primary" bindtap="switchToJoin">申请合作</button>
+    <button class="action-ghost" bindtap="copyJoinInfo">复制咨询文案</button>
+  </view>
+</view>

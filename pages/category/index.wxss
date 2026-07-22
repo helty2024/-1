@@ -227,6 +227,15 @@ page {
   line-height: 1.45;
 }
 
+.product-link {
+  margin-top: 16rpx;
+  padding-top: 14rpx;
+  border-top: 1px solid rgba(231, 192, 104, 0.24);
+  color: #e2bd67;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
 .scenario-card {
   padding: 18rpx;
 }
@@ -309,6 +318,7 @@ page {
 .section-sub,
 .product-note,
 .product-scene,
+.product-link,
 .scenario-desc,
 .cta-desc,
 .stat-label {
@@ -355,6 +365,7 @@ page {
 .cta-card,
 .product-role,
 .product-scene,
+.product-link,
 .btn {
   border-color: rgba(231, 192, 104, 0.58);
 }
