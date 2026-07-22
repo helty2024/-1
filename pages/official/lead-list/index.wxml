@@ -2,7 +2,7 @@
   <view class="hero">
     <view class="eyebrow">后台雏形</view>
     <view class="title">线索管理</view>
-    <view class="subtitle">当前读取小程序本地提交记录，后续接入后台接口后保持同一套列表、筛选、跟进和导出逻辑。</view>
+    <view class="subtitle">当前数据源：{{sourceLabel}}。后续接入后台接口后保持同一套列表、筛选、跟进和导出逻辑。</view>
     <view class="summary-grid">
       <view class="summary-card">
         <text class="summary-value">{{summary.total}}</text>

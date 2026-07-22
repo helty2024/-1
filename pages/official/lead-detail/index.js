@@ -1,12 +1,14 @@
 const {
   statusOptions,
-  findLead,
-  updateLead,
-  deleteLead,
   formatDate,
   leadFields,
   exportLeadText,
 } = require('../data/leads');
+const {
+  getLead,
+  updateLeadRecord,
+  deleteLeadRecord,
+} = require('../repositories/leadsRepository');
 
 Page({
   data: {
@@ -26,8 +28,8 @@ Page({
     this.loadLead();
   },
 
-  loadLead() {
-    const lead = findLead(this.data.id);
+  async loadLead() {
+    const lead = await getLead(this.data.id);
     if (!lead) {
       wx.showToast({ title: '线索不存在', icon: 'none' });
       return;
@@ -46,10 +48,10 @@ Page({
     });
   },
 
-  onStatusChange(event) {
+  async onStatusChange(event) {
     const statusIndex = Number(event.detail.value);
     const status = statusOptions[statusIndex].value;
-    const lead = updateLead(this.data.id, { status });
+    const lead = await updateLeadRecord(this.data.id, { status });
     this.setData({ statusIndex });
     if (lead) this.loadLead();
   },
@@ -58,8 +60,8 @@ Page({
     this.setData({ followNote: event.detail.value });
   },
 
-  saveNote() {
-    updateLead(this.data.id, { followNote: this.data.followNote });
+  async saveNote() {
+    await updateLeadRecord(this.data.id, { followNote: this.data.followNote });
     wx.showToast({ title: '已保存', icon: 'success' });
     this.loadLead();
   },
@@ -79,7 +81,7 @@ Page({
       confirmColor: '#d3ad5d',
       success: (res) => {
         if (!res.confirm) return;
-        deleteLead(this.data.id);
+        deleteLeadRecord(this.data.id);
         wx.navigateBack();
       },
     });

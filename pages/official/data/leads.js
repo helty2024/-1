@@ -51,48 +51,6 @@ function normalizeLead(lead, index) {
   };
 }
 
-function readLeads() {
-  const leads = wx.getStorageSync(LEAD_STORAGE_KEY) || [];
-  return leads.map(normalizeLead);
-}
-
-function writeLeads(leads) {
-  wx.setStorageSync(LEAD_STORAGE_KEY, leads.map(normalizeLead));
-}
-
-function addLead(type, title, values) {
-  const leads = readLeads();
-  const lead = createLead(type, title, values);
-  leads.unshift(lead);
-  writeLeads(leads);
-  return lead;
-}
-
-function findLead(id) {
-  return readLeads().find((lead) => lead.id === id) || null;
-}
-
-function updateLead(id, patch) {
-  const leads = readLeads();
-  const next = leads.map((lead) => {
-    if (lead.id !== id) return lead;
-    const status = patch.status || lead.status;
-    return normalizeLead({
-      ...lead,
-      ...patch,
-      status,
-      updatedAt: new Date().toISOString(),
-    });
-  });
-  writeLeads(next);
-  return next.find((lead) => lead.id === id) || null;
-}
-
-function deleteLead(id) {
-  const next = readLeads().filter((lead) => lead.id !== id);
-  writeLeads(next);
-}
-
 function formatDate(value) {
   if (!value) return '';
   const date = new Date(value);
@@ -141,11 +99,8 @@ module.exports = {
   typeLabels,
   statusOptions,
   statusLabels,
-  addLead,
-  readLeads,
-  findLead,
-  updateLead,
-  deleteLead,
+  createLead,
+  normalizeLead,
   formatDate,
   leadFields,
   exportLeadText,

@@ -1,5 +1,5 @@
 const { getForm } = require('../data/forms');
-const { addLead } = require('../data/leads');
+const { createLeadRecord } = require('../repositories/leadsRepository');
 
 Page({
   data: {
@@ -31,7 +31,7 @@ Page({
     });
   },
 
-  submitLead() {
+  async submitLead() {
     const { form, type, values } = this.data;
     const missing = form.fields.find((field) => field.required && !values[field.key]);
 
@@ -43,7 +43,11 @@ Page({
       return;
     }
 
-    addLead(type, form.navTitle, values);
+    await createLeadRecord({
+      type,
+      title: form.navTitle,
+      values,
+    });
 
     wx.showToast({
       title: form.successText,

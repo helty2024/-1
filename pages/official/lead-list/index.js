@@ -1,4 +1,5 @@
-const { readLeads, formatDate } = require('../data/leads');
+const { formatDate } = require('../data/leads');
+const { getLeadSource, listLeads } = require('../repositories/leadsRepository');
 
 const typeFilters = [
   { value: 'all', label: '全部类型' },
@@ -28,14 +29,15 @@ Page({
       newCount: 0,
       qualifiedCount: 0,
     },
+    sourceLabel: getLeadSource().label,
   },
 
   onShow() {
     this.loadLeads();
   },
 
-  loadLeads() {
-    const leads = readLeads().map((lead) => ({
+  async loadLeads() {
+    const leads = (await listLeads()).map((lead) => ({
       ...lead,
       displayTime: formatDate(lead.createdAt),
       displayName: lead.values.name || '未填写姓名',
@@ -71,14 +73,16 @@ Page({
     this.applyFilters();
   },
 
-  applyFilters() {
+  async applyFilters() {
     const type = this.data.typeFilters[this.data.typeIndex].value;
     const status = this.data.statusFilters[this.data.statusIndex].value;
-    const visibleLeads = this.data.leads.filter((lead) => {
-      const typeMatched = type === 'all' || lead.type === type;
-      const statusMatched = status === 'all' || lead.status === status;
-      return typeMatched && statusMatched;
-    });
+    const visibleLeads = (await listLeads({ type, status })).map((lead) => ({
+      ...lead,
+      displayTime: formatDate(lead.createdAt),
+      displayName: lead.values.name || '未填写姓名',
+      displayPhone: lead.values.phone || '未填写手机号',
+      displayDesc: this.buildLeadDesc(lead),
+    }));
 
     this.setData({ visibleLeads });
   },
