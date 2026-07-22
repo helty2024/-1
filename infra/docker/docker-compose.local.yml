@@ -1,0 +1,45 @@
+name: zhishentang-local
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: zhishentang-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_local_only
+      MYSQL_DATABASE: zhishentang
+      MYSQL_USER: zhishentang
+      MYSQL_PASSWORD: zhishentang_local
+      TZ: Asia/Shanghai
+    ports:
+      - "3307:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - zhishentang_mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_local_only"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: zhishentang-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - zhishentang_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  zhishentang_mysql_data:
+  zhishentang_redis_data:

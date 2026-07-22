@@ -7,6 +7,26 @@
         "value": ".superpowers"
       },
       {
+        "type": "folder",
+        "value": ".git"
+      },
+      {
+        "type": "folder",
+        "value": ".github"
+      },
+      {
+        "type": "folder",
+        "value": ".vscode"
+      },
+      {
+        "type": "folder",
+        "value": ".idea"
+      },
+      {
+        "type": "folder",
+        "value": "midscene_run"
+      },
+      {
         "type": "suffix",
         "value": ".map"
       },
@@ -47,8 +67,32 @@
         "value": "jsconfig.json"
       },
       {
+        "type": "file",
+        "value": ".dockerignore"
+      },
+      {
         "type": "folder",
         "value": "docs"
+      },
+      {
+        "type": "folder",
+        "value": "admin-web"
+      },
+      {
+        "type": "folder",
+        "value": "api-server"
+      },
+      {
+        "type": "folder",
+        "value": "packages"
+      },
+      {
+        "type": "folder",
+        "value": "infra"
+      },
+      {
+        "type": "folder",
+        "value": "node_modules"
       }
     ],
     "include": []

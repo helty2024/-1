@@ -1,0 +1,387 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+  engineType   = "client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum AdminUserStatus {
+  ACTIVE   @map("active")
+  DISABLED @map("disabled")
+}
+
+enum PublishStatus {
+  DRAFT     @map("draft")
+  PUBLISHED @map("published")
+  OFFLINE   @map("offline")
+}
+
+enum MediaAccessLevel {
+  PUBLIC  @map("public")
+  PRIVATE @map("private")
+}
+
+enum MediaStatus {
+  PROCESSING @map("processing")
+  READY      @map("ready")
+  BLOCKED    @map("blocked")
+}
+
+enum LeadType {
+  AGENT      @map("agent")
+  INVESTMENT @map("investment")
+  CONSULT    @map("consult")
+}
+
+enum LeadStatus {
+  NEW       @map("new")
+  CONTACTED @map("contacted")
+  QUALIFIED @map("qualified")
+  CLOSED    @map("closed")
+  INVALID   @map("invalid")
+}
+
+enum LeadLevel {
+  UNKNOWN @map("unknown")
+  COLD    @map("cold")
+  WARM    @map("warm")
+  HOT     @map("hot")
+}
+
+enum FormFieldType {
+  TEXT     @map("text")
+  NUMBER   @map("number")
+  PHONE    @map("phone")
+  TEXTAREA @map("textarea")
+  SELECT   @map("select")
+  RADIO    @map("radio")
+  CHECKBOX @map("checkbox")
+  FILE     @map("file")
+}
+
+enum FollowType {
+  PHONE         @map("phone")
+  WECHAT        @map("wechat")
+  VISIT         @map("visit")
+  NOTE          @map("note")
+  STATUS_CHANGE @map("status_change")
+}
+
+model AdminUser {
+  id              String          @id @default(cuid()) @db.VarChar(30)
+  username        String          @unique @db.VarChar(64)
+  passwordHash    String          @map("password_hash") @db.VarChar(255)
+  displayName     String          @map("display_name") @db.VarChar(80)
+  mobileEncrypted String?         @map("mobile_encrypted") @db.VarChar(512)
+  mobileHash      String?         @map("mobile_hash") @db.Char(64)
+  status          AdminUserStatus @default(ACTIVE)
+  lastLoginAt     DateTime?       @map("last_login_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  deletedAt       DateTime?       @map("deleted_at")
+
+  roles          AdminUserRole[]
+  assignedLeads  Lead[]          @relation("LeadAssignee")
+  followups      LeadFollowup[]
+  auditLogs      AuditLog[]
+  uploadedAssets MediaAsset[]    @relation("MediaUploader")
+  publishedPages ContentPage[]   @relation("ContentPublisher")
+
+  @@index([status])
+  @@map("admin_users")
+}
+
+model Role {
+  id          String   @id @default(cuid()) @db.VarChar(30)
+  code        String   @unique @db.VarChar(64)
+  name        String   @db.VarChar(80)
+  description String?  @db.VarChar(255)
+  isSystem    Boolean  @default(false) @map("is_system")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  users       AdminUserRole[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(cuid()) @db.VarChar(30)
+  code        String   @unique @db.VarChar(96)
+  name        String   @db.VarChar(100)
+  resource    String   @db.VarChar(64)
+  action      String   @db.VarChar(64)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  roles RolePermission[]
+
+  @@index([resource, action])
+  @@map("permissions")
+}
+
+model AdminUserRole {
+  adminUserId String   @map("admin_user_id") @db.VarChar(30)
+  roleId      String   @map("role_id") @db.VarChar(30)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  adminUser AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  role      Role      @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([adminUserId, roleId])
+  @@index([roleId])
+  @@map("admin_user_roles")
+}
+
+model RolePermission {
+  roleId       String   @map("role_id") @db.VarChar(30)
+  permissionId String   @map("permission_id") @db.VarChar(30)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+model MediaAsset {
+  id           String           @id @default(cuid()) @db.VarChar(30)
+  originalName String           @map("original_name") @db.VarChar(255)
+  objectKey    String           @unique @map("object_key") @db.VarChar(512)
+  bucket       String           @db.VarChar(128)
+  region       String           @db.VarChar(64)
+  mimeType     String           @map("mime_type") @db.VarChar(128)
+  extension    String?          @db.VarChar(16)
+  sizeBytes    BigInt           @map("size_bytes") @db.UnsignedBigInt
+  width        Int?             @db.UnsignedInt
+  height       Int?             @db.UnsignedInt
+  sha256       String?          @db.Char(64)
+  accessLevel  MediaAccessLevel @default(PUBLIC) @map("access_level")
+  status       MediaStatus      @default(PROCESSING)
+  altText      String?          @map("alt_text") @db.VarChar(255)
+  uploadedById String?          @map("uploaded_by_id") @db.VarChar(30)
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+  deletedAt    DateTime?        @map("deleted_at")
+
+  uploadedBy    AdminUser?    @relation("MediaUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  contentHeroes ContentPage[] @relation("ContentHero")
+  productCovers Product[]     @relation("ProductCover")
+
+  @@index([status, accessLevel])
+  @@index([sha256])
+  @@map("media_assets")
+}
+
+model ContentPage {
+  id            String        @id @default(cuid()) @db.VarChar(30)
+  slug          String        @unique @db.VarChar(120)
+  pageType      String        @map("page_type") @db.VarChar(64)
+  title         String        @db.VarChar(160)
+  subtitle      String?       @db.VarChar(500)
+  summary       String?       @db.Text
+  heroAssetId   String?       @map("hero_asset_id") @db.VarChar(30)
+  status        PublishStatus @default(DRAFT)
+  version       Int           @default(1)
+  publishedAt   DateTime?     @map("published_at")
+  publishedById String?       @map("published_by_id") @db.VarChar(30)
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  deletedAt     DateTime?     @map("deleted_at")
+
+  heroAsset   MediaAsset?      @relation("ContentHero", fields: [heroAssetId], references: [id], onDelete: SetNull)
+  publishedBy AdminUser?       @relation("ContentPublisher", fields: [publishedById], references: [id], onDelete: SetNull)
+  sections    ContentSection[]
+
+  @@index([pageType, status])
+  @@map("content_pages")
+}
+
+model ContentSection {
+  id          String    @id @default(cuid()) @db.VarChar(30)
+  pageId      String    @map("page_id") @db.VarChar(30)
+  sectionKey  String    @map("section_key") @db.VarChar(80)
+  sectionType String    @map("section_type") @db.VarChar(64)
+  title       String?   @db.VarChar(160)
+  subtitle    String?   @db.VarChar(500)
+  body        String?   @db.LongText
+  configJson  Json?     @map("config_json")
+  sortOrder   Int       @default(0) @map("sort_order")
+  isVisible   Boolean   @default(true) @map("is_visible")
+  version     Int       @default(1)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  page ContentPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, sectionKey])
+  @@index([pageId, sortOrder])
+  @@map("content_sections")
+}
+
+model Product {
+  id             String        @id @default(cuid()) @db.VarChar(30)
+  slug           String        @unique @db.VarChar(120)
+  categoryCode   String?       @map("category_code") @db.VarChar(64)
+  name           String        @db.VarChar(160)
+  subtitle       String?       @db.VarChar(500)
+  summary        String?       @db.Text
+  agencyPosition String?       @map("agency_position") @db.Text
+  coverAssetId   String?       @map("cover_asset_id") @db.VarChar(30)
+  status         PublishStatus @default(DRAFT)
+  sortOrder      Int           @default(0) @map("sort_order")
+  version        Int           @default(1)
+  publishedAt    DateTime?     @map("published_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  deletedAt      DateTime?     @map("deleted_at")
+
+  coverAsset MediaAsset?      @relation("ProductCover", fields: [coverAssetId], references: [id], onDelete: SetNull)
+  sections   ProductSection[]
+
+  @@index([status, categoryCode, sortOrder])
+  @@map("products")
+}
+
+model ProductSection {
+  id          String   @id @default(cuid()) @db.VarChar(30)
+  productId   String   @map("product_id") @db.VarChar(30)
+  sectionKey  String   @map("section_key") @db.VarChar(80)
+  sectionType String   @map("section_type") @db.VarChar(64)
+  title       String?  @db.VarChar(160)
+  contentJson Json     @map("content_json")
+  sortOrder   Int      @default(0) @map("sort_order")
+  isVisible   Boolean  @default(true) @map("is_visible")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, sectionKey])
+  @@index([productId, sortOrder])
+  @@map("product_sections")
+}
+
+model LeadForm {
+  id             String        @id @default(cuid()) @db.VarChar(30)
+  code           String        @unique @db.VarChar(64)
+  name           String        @db.VarChar(120)
+  leadType       LeadType      @map("lead_type")
+  title          String        @db.VarChar(160)
+  subtitle       String?       @db.VarChar(500)
+  successMessage String?       @map("success_message") @db.VarChar(255)
+  status         PublishStatus @default(DRAFT)
+  version        Int           @default(1)
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  deletedAt      DateTime?     @map("deleted_at")
+
+  fields LeadFormField[]
+  leads  Lead[]
+
+  @@index([leadType, status])
+  @@map("lead_forms")
+}
+
+model LeadFormField {
+  id             String        @id @default(cuid()) @db.VarChar(30)
+  formId         String        @map("form_id") @db.VarChar(30)
+  fieldKey       String        @map("field_key") @db.VarChar(64)
+  label          String        @db.VarChar(100)
+  fieldType      FormFieldType @map("field_type")
+  placeholder    String?       @db.VarChar(255)
+  optionsJson    Json?         @map("options_json")
+  required       Boolean       @default(false)
+  validationJson Json?         @map("validation_json")
+  sortOrder      Int           @default(0) @map("sort_order")
+  isVisible      Boolean       @default(true) @map("is_visible")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  form LeadForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@unique([formId, fieldKey])
+  @@index([formId, sortOrder])
+  @@map("lead_form_fields")
+}
+
+model Lead {
+  id              String     @id @default(cuid()) @db.VarChar(30)
+  leadNo          String     @unique @map("lead_no") @db.VarChar(40)
+  formId          String     @map("form_id") @db.VarChar(30)
+  leadType        LeadType   @map("lead_type")
+  nameEncrypted   String?    @map("name_encrypted") @db.VarChar(512)
+  mobileEncrypted String?    @map("mobile_encrypted") @db.VarChar(512)
+  mobileHash      String?    @map("mobile_hash") @db.Char(64)
+  mobileMasked    String?    @map("mobile_masked") @db.VarChar(32)
+  region          String?    @db.VarChar(160)
+  source          String?    @db.VarChar(80)
+  sourceDetail    Json?      @map("source_detail")
+  payloadJson     Json       @map("payload_json")
+  status          LeadStatus @default(NEW)
+  level           LeadLevel  @default(UNKNOWN)
+  assigneeId      String?    @map("assignee_id") @db.VarChar(30)
+  lastFollowedAt  DateTime?  @map("last_followed_at")
+  nextFollowAt    DateTime?  @map("next_follow_at")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+  deletedAt       DateTime?  @map("deleted_at")
+
+  form      LeadForm       @relation(fields: [formId], references: [id], onDelete: Restrict)
+  assignee  AdminUser?     @relation("LeadAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  followups LeadFollowup[]
+
+  @@index([leadType, status, createdAt])
+  @@index([assigneeId, status, nextFollowAt])
+  @@index([mobileHash])
+  @@map("leads")
+}
+
+model LeadFollowup {
+  id             String      @id @default(cuid()) @db.VarChar(30)
+  leadId         String      @map("lead_id") @db.VarChar(30)
+  adminUserId    String      @map("admin_user_id") @db.VarChar(30)
+  followType     FollowType  @map("follow_type")
+  content        String      @db.Text
+  previousStatus LeadStatus? @map("previous_status")
+  nextStatus     LeadStatus? @map("next_status")
+  nextFollowAt   DateTime?   @map("next_follow_at")
+  createdAt      DateTime    @default(now()) @map("created_at")
+
+  lead      Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  adminUser AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Restrict)
+
+  @@index([leadId, createdAt])
+  @@index([adminUserId, createdAt])
+  @@map("lead_followups")
+}
+
+model AuditLog {
+  id          String   @id @default(cuid()) @db.VarChar(30)
+  adminUserId String?  @map("admin_user_id") @db.VarChar(30)
+  action      String   @db.VarChar(80)
+  resource    String   @db.VarChar(80)
+  resourceId  String?  @map("resource_id") @db.VarChar(64)
+  beforeJson  Json?    @map("before_json")
+  afterJson   Json?    @map("after_json")
+  ip          String?  @db.VarChar(64)
+  userAgent   String?  @map("user_agent") @db.VarChar(500)
+  requestId   String?  @map("request_id") @db.VarChar(64)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  adminUser AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: SetNull)
+
+  @@index([resource, resourceId, createdAt])
+  @@index([adminUserId, createdAt])
+  @@index([requestId])
+  @@map("audit_logs")
+}

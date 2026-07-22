@@ -1,0 +1,9 @@
+**
+!api-server/**
+!admin-web/**
+!infra/nginx/default.conf
+**/node_modules
+**/dist
+**/.env
+**/tmp
+**/*.log
