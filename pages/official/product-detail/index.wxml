@@ -26,6 +26,19 @@
     </view>
   </view>
 
+  <view class="section evidence-section" wx:if="{{product.evidence}}">
+    <view class="section-title">{{product.evidence.title}}</view>
+    <text class="evidence-intro">{{product.evidence.intro}}</text>
+    <view class="evidence-list">
+      <view class="evidence-item" wx:for="{{product.evidence.items}}" wx:key="title">
+        <text class="evidence-no">{{item.no}}</text>
+        <text class="evidence-title">{{item.title}}</text>
+        <text class="evidence-desc">{{item.desc}}</text>
+      </view>
+    </view>
+    <image class="evidence-image" src="{{product.evidence.image}}" mode="aspectFill" />
+  </view>
+
   <view class="section image-section">
     <image class="wide-image" src="{{product.images.material}}" mode="aspectFill" />
   </view>
@@ -83,6 +96,6 @@
 
   <view class="bottom-actions">
     <button class="action-primary" bindtap="switchToJoin">申请合作</button>
-    <button class="action-ghost" bindtap="copyJoinInfo">复制咨询文案</button>
+    <button class="action-ghost" bindtap="copyJoinInfo">复制咨询信息</button>
   </view>
 </view>

@@ -1,57 +1,99 @@
-<view class="page" wx:if="{{form}}">
-  <view class="hero">
+<view class="page">
+  <view class="load-state" wx:if="{{loading}}">
+    <view class="load-title">正在加载申请表</view>
+    <view class="load-desc">正在获取最新申请信息...</view>
+  </view>
+
+  <view class="load-state error-state" wx:elif="{{loadError}}">
+    <view class="load-title">申请表加载失败</view>
+    <view class="load-desc">{{loadError}}</view>
+    <button class="retry-btn" bindtap="retryLoad">重新加载</button>
+  </view>
+
+  <block wx:elif="{{form}}">
+    <view class="hero">
     <view class="eyebrow">{{form.label}}</view>
     <view class="title">{{form.title}}</view>
     <view class="subtitle">{{form.subtitle}}</view>
-  </view>
-
-  <view class="form-card">
-    <view class="field" wx:for="{{form.fields}}" wx:key="key">
-      <view class="field-label">
-        <text>{{item.label}}</text>
-        <text class="required" wx:if="{{item.required}}">必填</text>
-      </view>
-
-      <input
-        wx:if="{{item.type == 'text' || item.type == 'number'}}"
-        class="field-control"
-        type="{{item.type}}"
-        placeholder="{{item.placeholder}}"
-        placeholder-class="placeholder"
-        data-key="{{item.key}}"
-        value="{{values[item.key]}}"
-        bindinput="onInput"
-      />
-
-      <textarea
-        wx:elif="{{item.type == 'textarea'}}"
-        class="field-control textarea"
-        placeholder="{{item.placeholder}}"
-        placeholder-class="placeholder"
-        data-key="{{item.key}}"
-        value="{{values[item.key]}}"
-        bindinput="onInput"
-      />
-
-      <picker
-        wx:else
-        mode="selector"
-        range="{{item.options}}"
-        data-index="{{index}}"
-        bindchange="onPickerChange"
-      >
-        <view class="field-control picker-value {{values[item.key] ? '' : 'placeholder-text'}}">
-          {{values[item.key] || '请选择'}}
-        </view>
-      </picker>
     </view>
-  </view>
 
-  <view class="notice">
-    提交信息当前先保存到小程序本地线索列表，后续接入后台后切换为云端提交、筛选、跟进和导出。
-  </view>
+    <view class="form-card">
+      <view class="field" wx:for="{{form.fields}}" wx:key="key">
+        <view class="field-label">
+          <text>{{item.label}}</text>
+          <text class="required" wx:if="{{item.required}}">必填</text>
+        </view>
 
-  <view class="footer-actions">
-    <button class="submit-btn" bindtap="submitLead">{{form.submitText}}</button>
-  </view>
+        <input
+          wx:if="{{item.type == 'text' || item.type == 'number'}}"
+          class="field-control"
+          type="{{item.type}}"
+          placeholder="{{item.placeholder}}"
+          placeholder-class="placeholder"
+          data-key="{{item.key}}"
+          value="{{values[item.key]}}"
+          bindinput="onInput"
+        />
+
+        <textarea
+          wx:elif="{{item.type == 'textarea'}}"
+          class="field-control textarea"
+          placeholder="{{item.placeholder}}"
+          placeholder-class="placeholder"
+          data-key="{{item.key}}"
+          value="{{values[item.key]}}"
+          bindinput="onInput"
+        />
+
+        <radio-group
+          wx:elif="{{item.type == 'radio'}}"
+          class="choice-group"
+          data-key="{{item.key}}"
+          bindchange="onRadioChange"
+        >
+          <label class="choice-item" wx:for="{{item.options}}" wx:key="*this" wx:for-item="option">
+            <radio value="{{option}}" color="#d3ad5d" checked="{{values[item.key] == option}}" />
+            <text>{{option}}</text>
+          </label>
+        </radio-group>
+
+        <checkbox-group
+          wx:elif="{{item.type == 'checkbox'}}"
+          class="choice-group"
+          data-key="{{item.key}}"
+          bindchange="onCheckboxChange"
+        >
+          <label class="choice-item" wx:for="{{item.options}}" wx:key="*this" wx:for-item="option">
+            <checkbox value="{{option}}" color="#d3ad5d" />
+            <text>{{option}}</text>
+          </label>
+        </checkbox-group>
+
+        <picker
+          wx:elif="{{item.type == 'select'}}"
+          mode="selector"
+          range="{{item.options}}"
+          data-index="{{index}}"
+          bindchange="onPickerChange"
+        >
+          <view class="field-control picker-value {{values[item.key] ? '' : 'placeholder-text'}}">
+            {{values[item.key] || '请选择'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="notice">
+      提交后，合作对接人员将根据你的申请信息尽快联系。
+    </view>
+
+    <view class="footer-actions">
+      <button
+        class="submit-btn"
+        loading="{{submitting}}"
+        disabled="{{submitting}}"
+        bindtap="submitLead"
+      >{{submitting ? '正在提交' : form.submitText}}</button>
+    </view>
+  </block>
 </view>

@@ -1,5 +1,8 @@
+<view class="loading-state" wx:if="{{loading}}">正在加载内容...</view>
+
 <view class="page" wx:if="{{content}}">
   <view class="hero">
+    <image class="hero-image" wx:if="{{content.coverImage}}" src="{{content.coverImage}}" mode="aspectFill" />
     <view class="eyebrow">{{content.label}}</view>
     <view class="title">{{content.title}}</view>
     <view class="subtitle">{{content.subtitle}}</view>
@@ -11,15 +14,52 @@
     </view>
   </view>
 
-  <view class="section" wx:for="{{content.sections}}" wx:key="title">
+  <view
+    id="content-section-{{index}}"
+    class="section"
+    wx:for="{{content.sections}}"
+    wx:for-index="index"
+    wx:key="title"
+  >
     <view class="section-head">
       <text class="section-title">{{item.title}}</text>
       <text class="section-body">{{item.body}}</text>
     </view>
+    <image
+      wx:if="{{item.image}}"
+      class="section-image"
+      src="{{item.image}}"
+      mode="aspectFill"
+    />
     <view class="card-grid" wx:if="{{item.cards && item.cards.length}}">
-      <view class="info-card" wx:for="{{item.cards}}" wx:for-item="card" wx:key="title">
+      <view
+        class="info-card {{card.image || card.fileUrl || card.url ? 'interactive-info-card' : ''}}"
+        wx:for="{{item.cards}}"
+        wx:for-item="card"
+        wx:key="title"
+        data-image="{{card.image}}"
+        data-file-url="{{card.fileUrl}}"
+        data-file-name="{{card.fileName}}"
+        data-url="{{card.url}}"
+        data-tab="{{card.tab}}"
+        bindtap="handleCardAction"
+      >
+        <image
+          wx:if="{{card.image}}"
+          class="card-image"
+          src="{{card.image}}"
+          mode="aspectFill"
+        />
         <text class="card-title">{{card.title}}</text>
         <text class="card-desc">{{card.desc}}</text>
+        <view class="card-file" wx:if="{{card.fileUrl}}">
+          <text class="card-file-icon">PDF</text>
+          <text class="card-file-name">{{card.fileName || '查看相关资料'}}</text>
+        </view>
+        <text class="card-action" wx:if="{{card.actionText}}">{{card.actionText}}</text>
+        <text class="card-action" wx:elif="{{card.fileUrl}}">查看资料</text>
+        <text class="card-action" wx:elif="{{card.image}}">查看图片</text>
+        <text class="card-action" wx:elif="{{card.url}}">查看详情</text>
       </view>
     </view>
   </view>
@@ -39,7 +79,7 @@
   <view class="section" wx:if="{{content.cases && content.cases.length}}">
     <view class="section-head">
       <text class="section-title">合作案例</text>
-      <text class="section-body">以下案例用于展示品牌合作基础，更多信息以后可接入后台维护。</text>
+      <text class="section-body">携手产业伙伴开展产品代理、联合研发与渠道建设，共同拓展人参健康产业市场。</text>
     </view>
     <view class="card-grid">
       <view class="info-card" wx:for="{{content.cases}}" wx:key="name">
@@ -62,8 +102,9 @@
     </view>
   </view>
 
-  <view class="footer-actions">
+  <view class="footer-actions" wx:if="{{content.primaryAction || content.secondaryAction}}">
     <button
+      wx:if="{{content.primaryAction}}"
       class="action-primary"
       data-url="{{content.primaryAction.url}}"
       data-tab="{{content.primaryAction.tab}}"
@@ -72,6 +113,7 @@
       {{content.primaryAction.text}}
     </button>
     <button
+      wx:if="{{content.secondaryAction}}"
       class="action-ghost"
       data-url="{{content.secondaryAction.url}}"
       data-tab="{{content.secondaryAction.tab}}"

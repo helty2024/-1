@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import {
   AppIcon,
   DashboardIcon,
@@ -12,33 +12,123 @@ import {
   SettingIcon,
   ShopIcon,
   UsergroupIcon,
-} from 'tdesign-icons-vue-next'
-import { useAuthStore } from '../stores/auth'
+} from "tdesign-icons-vue-next";
+import { useAuthStore } from "../stores/auth";
 
-const route = useRoute()
-const router = useRouter()
-const auth = useAuthStore()
-const activePath = computed(() => route.path)
-const pageTitle = computed(() => String(route.meta.title ?? '仪表盘'))
+const route = useRoute();
+const router = useRouter();
+const auth = useAuthStore();
+const activePath = computed(() => route.path);
+const pageTitle = computed(() => String(route.meta.title ?? "仪表盘"));
+const grantedPermissions = computed(
+  () => new Set(auth.user?.permissions ?? []),
+);
 
-const menuItems = [
-  { path: '/', label: '仪表盘', icon: DashboardIcon },
-  { path: '/content', label: '内容管理', icon: FileCopyIcon },
-  { path: '/products', label: '产品管理', icon: ShopIcon },
-  { path: '/cooperation', label: '招商合作', icon: UsergroupIcon },
-  { path: '/forms', label: '表单管理', icon: FileIcon },
-  { path: '/leads', label: '线索管理', icon: LayersIcon },
-  { path: '/media', label: '媒体资料', icon: ImageIcon },
-  { path: '/settings', label: '系统设置', icon: SettingIcon },
-]
+const menuGroups = [
+  {
+    title: "小程序页面",
+    items: [
+      {
+        path: "/content",
+        label: "首页内容",
+        icon: FileCopyIcon,
+        permissions: ["content:read"],
+      },
+      {
+        path: "/product-content",
+        label: "产品页内容",
+        icon: FileCopyIcon,
+        permissions: ["content:read"],
+      },
+      {
+        path: "/strength-content",
+        label: "实力页内容",
+        icon: FileCopyIcon,
+        permissions: ["content:read"],
+      },
+      {
+        path: "/cooperation",
+        label: "合作页内容",
+        icon: UsergroupIcon,
+        permissions: ["content:read"],
+      },
+    ],
+  },
+  {
+    title: "业务资料",
+    items: [
+      {
+        path: "/products",
+        label: "产品管理",
+        icon: ShopIcon,
+        permissions: ["product:read"],
+      },
+      {
+        path: "/media",
+        label: "媒体管理",
+        icon: ImageIcon,
+        permissions: ["media:read"],
+      },
+    ],
+  },
+  {
+    title: "客户跟进",
+    items: [
+      {
+        path: "/forms",
+        label: "表单管理",
+        icon: FileIcon,
+        permissions: ["form:read"],
+      },
+      {
+        path: "/leads",
+        label: "客户线索",
+        icon: LayersIcon,
+        permissions: ["lead:read_all", "lead:read_assigned"],
+      },
+    ],
+  },
+  {
+    title: "系统管理",
+    items: [
+      {
+        path: "/settings",
+        label: "账号与权限",
+        icon: SettingIcon,
+        permissions: [],
+      },
+      {
+        path: "/audit-logs",
+        label: "审计日志",
+        icon: FileIcon,
+        permissions: ["audit:read"],
+      },
+    ],
+  },
+];
+
+const visibleMenuGroups = computed(() =>
+  menuGroups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter(
+        (item) =>
+          item.permissions.length === 0 ||
+          item.permissions.some((permission) =>
+            grantedPermissions.value.has(permission),
+          ),
+      ),
+    }))
+    .filter((group) => group.items.length > 0),
+);
 
 function navigate(value: string | number) {
-  void router.push(String(value))
+  void router.push(String(value));
 }
 
 function logout() {
-  auth.logout()
-  void router.replace('/login')
+  auth.logout();
+  void router.replace("/login");
 }
 </script>
 
@@ -53,11 +143,30 @@ function logout() {
         </span>
       </div>
 
-      <t-menu theme="dark" :value="activePath" class="admin-menu" @change="navigate">
-        <t-menu-item v-for="item in menuItems" :key="item.path" :value="item.path">
-          <template #icon><component :is="item.icon" /></template>
-          {{ item.label }}
+      <t-menu
+        theme="dark"
+        :value="activePath"
+        class="admin-menu"
+        @change="navigate"
+      >
+        <t-menu-item value="/">
+          <template #icon><DashboardIcon /></template>
+          工作台
         </t-menu-item>
+        <t-menu-group
+          v-for="group in visibleMenuGroups"
+          :key="group.title"
+          :title="group.title"
+        >
+          <t-menu-item
+            v-for="item in group.items"
+            :key="item.path"
+            :value="item.path"
+          >
+            <template #icon><component :is="item.icon" /></template>
+            {{ item.label }}
+          </t-menu-item>
+        </t-menu-group>
       </t-menu>
     </t-aside>
 
@@ -68,8 +177,13 @@ function logout() {
           <h1>{{ pageTitle }}</h1>
         </div>
         <div class="header-user">
-          <span>{{ auth.user?.displayName ?? '管理员' }}</span>
-          <t-button variant="text" shape="square" title="退出登录" @click="logout">
+          <span>{{ auth.user?.displayName ?? "管理员" }}</span>
+          <t-button
+            variant="text"
+            shape="square"
+            title="退出登录"
+            @click="logout"
+          >
             <LogoutIcon />
           </t-button>
         </div>

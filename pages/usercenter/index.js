@@ -1,23 +1,17 @@
+const { getContentPage } = require('../../services/official/contentRepository');
+
 Page({
   data: {
-    contactCards: [
-      { title: '代理合作', desc: '面向区域代理、私域团长、门店渠道和电商运营者开放合作咨询。' },
-      { title: '渠道政策', desc: '了解产品货盘、拿货方式、渠道价格、授权规则和合作支持。' },
-      { title: '专人对接', desc: '提交合作意向后，由对接人员沟通经营渠道、合作需求和适配产品。' },
-    ],
-    benefitCards: [
-      { title: '产品资料包', desc: '获取主推产品卖点、产品图、场景话术和基础宣传素材。' },
-      { title: '合作政策说明', desc: '了解代理门槛、拿货政策、渠道权益和后续支持方式。' },
-      { title: '销售素材支持', desc: '提供适合朋友圈、社群、直播间和平台详情页使用的内容素材。' },
-    ],
-    applicationLinks: [
-      { title: '代理申请', desc: '区域代理、渠道代理、私域团长、电商运营', formType: 'agent' },
-      { title: '投资合作', desc: '项目投资、资源合作、渠道共建、品牌运营', formType: 'investment' },
-      { title: '普通咨询', desc: '产品、品牌背书、资质、合作案例咨询', formType: 'consult' },
-      { title: '招商政策', desc: '查看合作模式、代理权益、扶持政策、常见问题', contentType: 'join' },
-      { title: '线索管理', desc: '查看、筛选、跟进、复制导出本地测试线索', adminPath: '/pages/official/lead-list/index' },
-    ],
-    contactText: '我想申请中康参芝代理合作资料，了解产品货盘、拿货政策、授权方式和渠道支持。',
+    loading: true,
+    content: null,
+    heroImage: '/images/brand/cooperation-bg.jpg',
+    overviewSection: null,
+    benefitSection: null,
+    directionSection: null,
+  },
+
+  onLoad() {
+    this.loadContent();
   },
 
   onShow() {
@@ -27,37 +21,37 @@ Page({
     }
   },
 
-  copyContact() {
-    wx.setClipboardData({
-      data: this.data.contactText,
-      success: () => wx.showToast({ title: '已复制', icon: 'success' }),
-    });
-  },
-
-  switchToHome() {
-    wx.switchTab({ url: '/pages/home/home' });
-  },
-
-  switchToProducts() {
-    wx.switchTab({ url: '/pages/category/index' });
-  },
-
-  openApplication(event) {
-    const { formType, contentType, adminPath } = event.currentTarget.dataset;
-    if (adminPath) {
-      wx.navigateTo({ url: adminPath });
-      return;
-    }
-
-    if (formType) {
-      wx.navigateTo({
-        url: `/pages/official/lead-form/index?type=${formType}`,
+  async loadContent() {
+    this.setData({ loading: true });
+    try {
+      const content = await getContentPage('cooperation');
+      const sections = Array.isArray(content.sections) ? content.sections : [];
+      this.setData({
+        content,
+        heroImage: content.coverImage || '/images/brand/cooperation-bg.jpg',
+        overviewSection: sections[0] || null,
+        benefitSection: sections[1] || null,
+        directionSection: sections[2] || null,
       });
+    } catch (error) {
+      wx.showToast({
+        title: error.message || '合作内容加载失败',
+        icon: 'none',
+      });
+    } finally {
+      this.setData({ loading: false });
+    }
+  },
+
+  handleAction(event) {
+    const { url, tab } = event.currentTarget.dataset;
+    if (!url) return;
+
+    if (tab) {
+      wx.switchTab({ url });
       return;
     }
 
-    wx.navigateTo({
-      url: `/pages/official/content/index?type=${contentType}`,
-    });
+    wx.navigateTo({ url });
   },
 });

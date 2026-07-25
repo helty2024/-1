@@ -1,6 +1,6 @@
 # 线索数据适配层
 
-当前线索管理使用本地存储，代码入口：
+线索管理已支持 API 与本地 Mock 双模式，代码入口：
 
 - 数据字段、状态、格式化：`pages/official/data/leads.js`
 - 数据读写适配层：`pages/official/repositories/leadsRepository.js`
@@ -8,9 +8,12 @@
 - 线索列表页：`pages/official/lead-list/index.js`
 - 线索详情页：`pages/official/lead-detail/index.js`
 
-## 当前实现
+## 数据源切换
 
-`leadsRepository.js` 当前使用 `wx.getStorageSync` / `wx.setStorageSync` 保存到本地 `officialLeads`。
+修改 `config/officialApi.js` 中的 `LEAD_DATA_SOURCE`：
+
+- `api`：从独立 NestJS API 获取动态表单、提交线索，并通过受保护接口管理线索。
+- `mock`：继续使用 `wx.getStorageSync` / `wx.setStorageSync` 保存到本地 `officialLeads`。
 
 对页面暴露的接口：
 
@@ -21,11 +24,13 @@
 - `deleteLeadRecord(id)`
 - `getLeadSource()`
 
-## 后续切换后台
+页面调用保持不变
 
-接微信云开发或独立后台时，优先只替换 `leadsRepository.js` 内部实现，保持页面调用不变。
+`leadsRepository.js` 在两种模式下均保留以下方法：
 
-建议后台字段至少包含：
+小程序公开接口只包含读取已发布表单和提交线索。列表、详情、修改状态、跟进和删除使用后台接口，必须携带管理员 Token，避免公开客户资料。
+
+API 线索字段包含：
 
 - `id`
 - `type`
@@ -42,3 +47,4 @@
 - `contacted`
 - `qualified`
 - `closed`
+- `invalid`

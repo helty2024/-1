@@ -1,19 +1,28 @@
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { Logger as PinoLogger } from 'nestjs-pino';
+import { mkdirSync } from 'node:fs';
 import { AppModule } from './app.module';
+import { getMediaStorageRoot } from './modules/media/media-storage';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bufferLogs: true,
+  });
   const config = app.get(ConfigService);
   const port = config.get<number>('PORT', 3000);
   const apiPrefix = config.get<string>('API_PREFIX', 'api/v1');
 
   app.useLogger(app.get(PinoLogger));
-  app.use(helmet());
+  app.set('trust proxy', config.get<number>('TRUST_PROXY_HOPS', 1));
+  app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+  const mediaStorageRoot = getMediaStorageRoot();
+  mkdirSync(mediaStorageRoot, { recursive: true });
+  app.useStaticAssets(mediaStorageRoot, { prefix: '/media/' });
   app.enableCors({
     origin: config.get<string>('ADMIN_WEB_ORIGIN', 'http://localhost:5173'),
     credentials: true,

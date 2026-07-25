@@ -1,7 +1,10 @@
 **
 !api-server/**
 !admin-web/**
-!infra/nginx/default.conf
+!infra/nginx/**
+!data/officialContent.js
+!data/officialProducts.js
+!pages/official/data/products.js
 **/node_modules
 **/dist
 **/.env

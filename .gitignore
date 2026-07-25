@@ -13,17 +13,26 @@ project.private.config.json
 node_modules/
 dist/
 coverage/
+playwright-report/
+test-results/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
 .eslintcache
 
 # Application secrets and generated clients
 .env
 .env.*
 !.env.example
+!infra/env/.env.production.example
 api-server/src/generated/prisma/
+api-server/storage/
+infra/certs/*.pem
+infra/certs/*.key
+infra/backups/*
+!infra/backups/README.md
 
 # Codex / automation working files
 .superpowers/
@@ -38,3 +47,5 @@ tmp/
 temp/
 *.tmp
 *.tsbuildinfo
+release/*.zip
+release/*.sha256

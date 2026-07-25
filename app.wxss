@@ -14,12 +14,8 @@ page {
   --td-component-border: rgba(231, 192, 104, 0.52);
 }
 
-view,
-text,
-image,
-button,
-scroll-view,
-swiper,
-swiper-item {
-  border-color: rgba(231, 192, 104, 0.52) !important;
+.interactive-hover,
+.button-hover {
+  opacity: 0.82;
+  transform: scale(0.985);
 }

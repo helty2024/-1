@@ -1,14 +1,19 @@
-import { getProduct } from '../data/products';
+import { getProductRecord } from '../repositories/productsRepository';
 
 Page({
   data: {
     product: null,
   },
 
-  onLoad(options) {
-    const product = getProduct(options.slug);
-    this.setData({ product });
-    wx.setNavigationBarTitle({ title: product.shortName || product.name });
+  async onLoad(options) {
+    try {
+      const product = await getProductRecord(options.slug);
+      if (!product) throw new Error('产品不存在');
+      this.setData({ product });
+      wx.setNavigationBarTitle({ title: product.shortName || product.name });
+    } catch (error) {
+      wx.showToast({ title: '产品加载失败', icon: 'none' });
+    }
   },
 
   copyJoinInfo() {

@@ -1,103 +1,105 @@
 <view class="page">
   <view class="hero">
-    <image class="hero-bg" src="/images/brand/home-bg.jpeg" mode="aspectFill" />
+    <image class="hero-bg" src="{{heroImage}}" mode="aspectFill" />
     <view class="hero-overlay"></view>
     <view class="hero-content">
-      <view class="eyebrow">长白山人参渠道合作</view>
-      <view class="brand">中康参芝</view>
-      <view class="subtitle">让长白山的天赐资源走向世界。</view>
+      <view class="eyebrow">{{homeContent.label}}</view>
+      <view class="brand">{{homeContent.title}}</view>
+      <view class="subtitle">{{homeContent.subtitle}}</view>
       <view class="hero-stats">
-        <view class="stat" wx:for="{{heroStats}}" wx:key="label">
+        <view class="stat" wx:for="{{homeContent.stats}}" wx:key="label">
           <text class="stat-value">{{item.value}}</text>
           <text class="stat-label">{{item.label}}</text>
         </view>
       </view>
-      <view class="hero-actions">
-        <button class="btn btn-primary" bindtap="copyJoinInfo">复制合作信息</button>
-        <button class="btn btn-ghost" bindtap="switchToJoin">查看合作页</button>
+    </view>
+
+    <view class="company-panel" wx:if="{{companySection}}">
+      <image class="company-panel-image" src="{{companySection.image}}" mode="aspectFill" />
+      <view class="company-panel-body">
+        <view class="company-panel-title">{{companySection.title}}</view>
+        <view class="company-panel-desc">{{companySection.body}}</view>
       </view>
     </view>
 
-    <view class="hero-panel">
-      <image class="panel-image" src="/images/brand/authority-portrait.jpg" mode="aspectFit" />
+    <view class="hero-panel interactive-panel" hover-class="interactive-hover" bindtap="openCeoProfile">
+      <image class="panel-image" src="{{ceoCard.coverImage}}" mode="aspectFit" />
       <view class="panel-body">
-        <view class="panel-title">张家新 · 中康参芝 CEO</view>
-        <view class="panel-desc">企业 CEO、合作对接与渠道推进总负责人。</view>
+        <view class="panel-title">{{ceoCard.title}}</view>
+        <view class="panel-desc">{{ceoCard.subtitle}}</view>
+        <view class="panel-link" wx:if="{{ceoCard.actionText}}">{{ceoCard.actionText}}</view>
       </view>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{navigationSection}}">
     <view class="section-head">
-      <text class="section-title">兼具实战与战略的领军人</text>
-      <text class="section-sub">用多维社会身份与产业履历建立第一层信任。</text>
-    </view>
-    <view class="trust-grid">
-      <view class="trust-card" wx:for="{{trustCards}}" wx:key="title">
-        <image class="trust-image" src="{{item.image}}" mode="{{item.mode}}" />
-        <view class="trust-body">
-          <text class="trust-title">{{item.title}}</text>
-          <text class="trust-desc">{{item.desc}}</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-head">
-      <text class="section-title">正式内容入口</text>
-      <text class="section-sub">从首页进入企业、背书、招商、投资合作详情，后续后台内容也会按这些模块维护。</text>
+      <text class="section-title">{{navigationSection.title}}</text>
+      <text class="section-sub">{{navigationSection.body}}</text>
     </view>
     <view class="official-grid">
-      <view class="official-card" wx:for="{{officialLinks}}" wx:key="type" data-type="{{item.type}}" bindtap="openOfficial">
+      <view
+        class="official-card"
+        hover-class="interactive-hover"
+        wx:for="{{navigationSection.cards}}"
+        wx:key="title"
+        data-url="{{item.url}}"
+        data-tab="{{item.tab}}"
+        bindtap="handleAction"
+      >
         <text class="official-title">{{item.title}}</text>
         <text class="official-desc">{{item.desc}}</text>
-        <text class="official-link">查看详情</text>
+        <text class="official-link" wx:if="{{item.actionText}}">{{item.actionText}}</text>
       </view>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{productSection}}">
     <view class="section-head">
-      <text class="section-title">产品力四证据</text>
-      <text class="section-sub">原料、年份、检测、链路四层一起讲，不单靠一句广告词。</text>
+      <text class="section-title">{{productSection.title}}</text>
+      <text class="section-sub">{{productSection.body}}</text>
     </view>
-    <view class="evidence-grid">
-      <view class="evidence-card" wx:for="{{evidenceCards}}" wx:key="title">
-        <text class="evidence-no">{{item.no}}</text>
-        <text class="evidence-title">{{item.title}}</text>
-        <text class="evidence-desc">{{item.desc}}</text>
-      </view>
-    </view>
-    <view class="evidence-visual">
-      <image class="evidence-img" src="/images/brand/evidence-trace.jpg" mode="aspectFill" />
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-head">
-      <text class="section-title">推荐产品</text>
-      <text class="section-sub">让长白山的天赐资源走向世界。</text>
-    </view>
-    <view class="product-grid">
-      <view class="product-card" wx:for="{{products}}" wx:key="name">
-        <image class="product-image" src="{{item.image}}" mode="aspectFill" />
-        <view class="product-body">
-          <text class="product-name">{{item.name}}</text>
-          <text class="product-note">{{item.note}}</text>
+    <image
+      wx:if="{{productSection.image}}"
+      class="product-section-image"
+      src="{{productSection.image}}"
+      mode="aspectFill"
+    />
+    <block wx:if="{{showHomeProducts}}">
+      <view class="product-grid">
+        <view
+          class="product-card interactive-panel"
+          hover-class="interactive-hover"
+          wx:for="{{products}}"
+          wx:key="slug"
+          data-slug="{{item.slug}}"
+          bindtap="openProduct"
+        >
+          <image class="product-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="product-body">
+            <text class="product-name">{{item.shortName || item.name}}</text>
+            <text class="product-note">{{item.note}}</text>
+            <text class="product-link">查看产品 ›</text>
+          </view>
         </view>
       </view>
-    </view>
-    <button class="wide-btn" bindtap="switchToProducts">去产品页看完整货盘</button>
+    </block>
+    <button
+      class="wide-btn"
+      wx:if="{{productAction.text}}"
+      data-url="{{productAction.url}}"
+      data-tab="{{productAction.tab}}"
+      bindtap="handleAction"
+    >{{productAction.text}}</button>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{stepsSection}}">
     <view class="section-head">
-      <text class="section-title">合作路径</text>
-      <text class="section-sub">三步走，减少理解成本。</text>
+      <text class="section-title">{{stepsSection.title}}</text>
+      <text class="section-sub">{{stepsSection.body}}</text>
     </view>
     <view class="step-list">
-      <view class="step-card" wx:for="{{steps}}" wx:key="title">
+      <view class="step-card" wx:for="{{stepsSection.cards}}" wx:key="title">
         <text class="step-no">0{{index + 1}}</text>
         <view class="step-copy">
           <text class="step-title">{{item.title}}</text>
@@ -107,15 +109,27 @@
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{ctaSection}}">
     <view class="cta-card">
       <view class="cta-copy">
-        <text class="cta-title">合作意向</text>
-        <text class="cta-desc">复制合作信息，下一步进入合作页，接收代理资料、素材和政策。</text>
+        <text class="cta-title">{{ctaSection.title}}</text>
+        <text class="cta-desc">{{ctaSection.body}}</text>
       </view>
       <view class="cta-actions">
-        <button class="btn btn-primary" bindtap="copyJoinInfo">复制合作信息</button>
-        <button class="btn btn-ghost" bindtap="switchToStrength">看品牌实力</button>
+        <button
+          class="btn btn-primary"
+          wx:if="{{homeContent.primaryAction}}"
+          data-url="{{homeContent.primaryAction.url}}"
+          data-tab="{{homeContent.primaryAction.tab}}"
+          bindtap="handleAction"
+        >{{homeContent.primaryAction.text}}</button>
+        <button
+          class="btn btn-ghost"
+          wx:if="{{homeContent.secondaryAction}}"
+          data-url="{{homeContent.secondaryAction.url}}"
+          data-tab="{{homeContent.secondaryAction.tab}}"
+          bindtap="handleAction"
+        >{{homeContent.secondaryAction.text}}</button>
       </view>
     </view>
   </view>

@@ -1,31 +1,29 @@
 <view class="page">
   <view class="hero">
-    <image class="hero-bg" src="/images/brand/product-bg.jpg" mode="aspectFill" />
+    <image class="hero-bg" src="{{heroImage}}" mode="aspectFill" />
     <view class="hero-overlay"></view>
     <view class="hero-content">
-      <view class="eyebrow">明星产品 · 招商货盘</view>
-      <view class="brand">中康参芝明星产品</view>
-      <view class="subtitle">围绕长白山参源、草本饮品、高端礼赠和渠道动销，提供适合代理商承接的产品组合。</view>
+      <view class="eyebrow">{{pageContent.label}}</view>
+      <view class="brand">
+        <text class="brand-line" wx:for="{{titleLines}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="subtitle">{{pageContent.subtitle}}</view>
       <view class="hero-stats">
         <view class="stat" wx:for="{{heroStats}}" wx:key="label">
           <text class="stat-value">{{item.value}}</text>
           <text class="stat-label">{{item.label}}</text>
         </view>
       </view>
-      <view class="hero-actions">
-        <button class="btn btn-primary" bindtap="switchToStrength">看品牌背书</button>
-        <button class="btn btn-ghost" bindtap="switchToJoin">申请合作</button>
-      </view>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{productIntroSection}}">
     <view class="section-head">
-      <text class="section-title">适合代理商主推的明星产品</text>
-      <text class="section-sub">从高频饮品、源头鲜参到高客单礼盒，覆盖引流、复购、礼赠和企业团购需求。</text>
+      <text class="section-title">{{productIntroSection.title}}</text>
+      <text class="section-sub">{{productIntroSection.body}}</text>
     </view>
     <view class="product-grid">
-      <view class="product-card" wx:for="{{products}}" wx:key="slug" data-slug="{{item.slug}}" bindtap="openProduct">
+      <view class="product-card" hover-class="interactive-hover" wx:for="{{products}}" wx:key="slug" data-slug="{{item.slug}}" bindtap="openProduct">
         <image class="product-image" src="{{item.image}}" mode="aspectFill" />
         <view class="product-body">
           <view class="product-topline">
@@ -40,28 +38,40 @@
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{scenarioSection}}">
     <view class="section-head">
-      <text class="section-title">代理商可承接的销售场景</text>
-      <text class="section-sub">不同渠道可根据客群和资源，选择适合的产品组合、话术和切入方式。</text>
+      <text class="section-title">{{scenarioSection.title}}</text>
+      <text class="section-sub">{{scenarioSection.body}}</text>
     </view>
     <view class="scenario-grid">
-      <view class="scenario-card" wx:for="{{scenarioCards}}" wx:key="title">
+      <view class="scenario-card" wx:for="{{scenarioSection.cards}}" wx:key="title">
         <text class="scenario-title">{{item.title}}</text>
         <text class="scenario-desc">{{item.desc}}</text>
       </view>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{ctaSection}}">
     <view class="cta-card">
       <view class="cta-copy">
-        <text class="cta-title">申请明星产品代理资料</text>
-        <text class="cta-desc">了解产品货盘、渠道政策、拿货方式、素材支持和后续对接流程。</text>
+        <text class="cta-title">{{ctaSection.title}}</text>
+        <text class="cta-desc">{{ctaSection.body}}</text>
       </view>
       <view class="cta-actions">
-        <button class="btn btn-primary" bindtap="switchToJoin">进入合作页</button>
-        <button class="btn btn-ghost" bindtap="copyJoinInfo">复制合作意向</button>
+        <button
+          class="btn btn-primary"
+          wx:if="{{ctaSection.actionText}}"
+          data-url="{{ctaSection.actionUrl}}"
+          data-tab="{{ctaSection.actionTab}}"
+          bindtap="handleAction"
+        >{{ctaSection.actionText}}</button>
+        <button
+          class="btn btn-ghost"
+          wx:if="{{ctaSection.secondaryActionText}}"
+          data-url="{{ctaSection.secondaryActionUrl}}"
+          data-tab="{{ctaSection.secondaryActionTab}}"
+          bindtap="handleAction"
+        >{{ctaSection.secondaryActionText}}</button>
       </view>
     </view>
   </view>

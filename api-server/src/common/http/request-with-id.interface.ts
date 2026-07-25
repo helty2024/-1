@@ -9,6 +9,7 @@ export interface RequestWithId extends Request {
     displayName: string;
     roles: string[];
     permissions: string[];
+    tokenVersion: number;
   };
 }
 

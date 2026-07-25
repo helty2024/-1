@@ -125,6 +125,58 @@ page {
   color: rgba(255, 255, 255, 0.78);
 }
 
+.evidence-intro,
+.evidence-no,
+.evidence-title,
+.evidence-desc {
+  display: block;
+}
+
+.evidence-intro {
+  font-size: 25rpx;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.evidence-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+  margin-top: 26rpx;
+}
+
+.evidence-item {
+  padding: 0;
+}
+
+.evidence-no {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.evidence-title {
+  margin-top: 6rpx;
+  font-size: 28rpx;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.evidence-desc {
+  margin-top: 6rpx;
+  font-size: 23rpx;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.evidence-image {
+  width: 100%;
+  height: 360rpx;
+  margin-top: 26rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 22rpx;
+}
+
 .image-section {
   padding-top: 24rpx;
 }
@@ -229,4 +281,28 @@ page {
 
 .action-ghost {
   background: rgba(255, 255, 255, 0.06);
+}
+
+/* Gold marks actions; silver marks read-only information. */
+.eyebrow,
+.copy-card,
+.point-card,
+.split-card,
+.spec-card,
+.value-card,
+.notice-card,
+.wide-image,
+.tag {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.spec-row {
+  border-bottom-color: rgba(190, 201, 214, 0.24);
+}
+
+.action-primary,
+.action-ghost {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.08), 0 14rpx 34rpx rgba(184, 128, 37, 0.16);
 }

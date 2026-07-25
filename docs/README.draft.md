@@ -135,7 +135,7 @@ VITE_API_BASE_URL=http://localhost:3000/api/v1
 
 ## 数据迁移原则
 
-- `pages/official/data/content.js`：作为企业、品牌、招商和投资内容的首次导入来源；
+- `data/officialContent.js`：作为企业、品牌、招商、合作首页和投资内容的首次导入来源；
 - `data/officialProducts.js` 与 `pages/official/data/products.js`：作为产品首次导入来源；
 - `pages/official/data/forms.js`：作为三类表单字段的首次导入来源；
 - `pages/official/repositories/leadsRepository.js`：保持页面调用接口，内部数据源由 `local` 切换为 `api`；

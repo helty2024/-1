@@ -1,0 +1,138 @@
+name: Quality Gate
+
+on:
+  push:
+    branches: [main, "codex/**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      NODE_ENV: test
+      PORT: 3000
+      API_PREFIX: api/v1
+      ADMIN_WEB_ORIGIN: http://127.0.0.1:5173
+      SWAGGER_ENABLED: false
+      DATABASE_URL: mysql://zhishentang:ci_database_password@127.0.0.1:3306/zhishentang
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: 3306
+      DATABASE_USER: zhishentang
+      DATABASE_PASSWORD: ci_database_password
+      DATABASE_NAME: zhishentang
+      DATABASE_CONNECTION_LIMIT: 10
+      DATABASE_ALLOW_PUBLIC_KEY_RETRIEVAL: true
+      REDIS_ENABLED: true
+      REDIS_URL: redis://127.0.0.1:6379
+      JWT_ACCESS_SECRET: ci-jwt-secret-at-least-32-characters-long
+      JWT_ACCESS_EXPIRES_IN: 2h
+      APP_DATA_ENCRYPTION_KEY: ci-data-key-at-least-32-characters-long
+      MEDIA_STORAGE_DRIVER: local
+      MEDIA_STORAGE_DIR: storage/media
+      MEDIA_TEMP_DIR: storage/tmp/media
+      MEDIA_PUBLIC_BASE_URL: http://127.0.0.1:3000/media
+      ADMIN_SEED_USERNAME: ci_admin
+      ADMIN_SEED_PASSWORD: CiAdmin_2026!
+      ADMIN_SEED_DISPLAY_NAME: CI Administrator
+      E2E_ADMIN_USERNAME: e2e_admin
+      E2E_ADMIN_PASSWORD: E2eAdmin_2026!
+      LOG_LEVEL: warn
+      LOG_PRETTY: false
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci_root_password
+          MYSQL_DATABASE: zhishentang
+          MYSQL_USER: zhishentang
+          MYSQL_PASSWORD: ci_database_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pci_root_password --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=20
+      redis:
+        image: redis:7.4-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            api-server/package-lock.json
+            admin-web/package-lock.json
+            packages/contracts/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          npm ci --prefix api-server
+          npm ci --prefix admin-web
+          npm ci --prefix packages/contracts
+
+      - name: Validate mini program
+        run: npm test
+
+      - name: Build shared contracts
+        run: npm run build --prefix packages/contracts
+
+      - name: Initialize test database
+        run: |
+          npm run db:deploy --prefix api-server
+          npm run db:seed --prefix api-server
+
+      - name: Build and test API
+        run: |
+          npm run build --prefix api-server
+          npm test --prefix api-server -- --runInBand
+          npm run test:e2e --prefix api-server -- --runInBand
+
+      - name: Build admin web
+        run: npm run build --prefix admin-web
+
+      - name: Install Playwright browser
+        working-directory: admin-web
+        run: npx playwright install --with-deps chromium
+
+      - name: Run admin browser smoke tests
+        run: |
+          npm run test:admin:create --prefix api-server
+          npm run test:e2e --prefix admin-web
+
+      - name: Remove browser test administrator
+        if: always()
+        run: npm run test:admin:delete --prefix api-server
+
+      - name: Validate production Compose
+        env:
+          APP_ENV_FILE: ../env/.env.production.example
+        run: docker compose --env-file infra/env/.env.production.example -f infra/docker/docker-compose.production.yml config --quiet
+
+      - name: Upload browser failure report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: admin-web/playwright-report
+          if-no-files-found: ignore
+          retention-days: 7

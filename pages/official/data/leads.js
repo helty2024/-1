@@ -12,6 +12,7 @@ const statusOptions = [
   { value: 'contacted', label: '已联系' },
   { value: 'qualified', label: '重点跟进' },
   { value: 'closed', label: '已结束' },
+  { value: 'invalid', label: '无效线索' },
 ];
 
 const statusLabels = statusOptions.reduce((labels, item) => {
@@ -65,7 +66,7 @@ function leadFields(lead) {
   const labelMap = form.fields.reduce((labels, field) => {
     labels[field.key] = field.label;
     return labels;
-  }, {});
+  }, { ...(lead.fieldLabels || {}) });
 
   return Object.keys(values)
     .filter((key) => values[key])

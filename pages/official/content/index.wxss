@@ -23,6 +23,23 @@ page {
   padding: 42rpx 28rpx 28rpx;
 }
 
+.hero-image {
+  width: 100%;
+  height: 440rpx;
+  margin-bottom: 28rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 20rpx;
+}
+
+.loading-state {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 26rpx;
+}
+
 .eyebrow {
   display: inline-flex;
   padding: 10rpx 18rpx;
@@ -105,6 +122,15 @@ page {
   color: rgba(255, 255, 255, 0.76);
 }
 
+.section-image {
+  display: block;
+  width: 100%;
+  height: 360rpx;
+  margin-bottom: 18rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 20rpx;
+}
+
 .card-grid,
 .faq-list,
 .timeline {
@@ -117,6 +143,23 @@ page {
 .timeline-item {
   border-radius: 20rpx;
   padding: 20rpx;
+}
+
+.info-card {
+  overflow: hidden;
+}
+
+.interactive-info-card {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.08), 0 14rpx 34rpx rgba(184, 128, 37, 0.16);
+}
+
+.card-image {
+  display: block;
+  width: calc(100% + 40rpx);
+  height: 300rpx;
+  margin: -20rpx -20rpx 20rpx;
 }
 
 .card-title,
@@ -136,6 +179,42 @@ page {
   font-size: 24rpx;
   line-height: 1.58;
   color: rgba(255, 255, 255, 0.74);
+}
+
+.card-file {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 18rpx;
+  padding-top: 16rpx;
+  border-top: 1px solid rgba(239, 199, 105, 0.24);
+}
+
+.card-file-icon {
+  flex: 0 0 auto;
+  padding: 5rpx 8rpx;
+  border: 1px solid rgba(239, 199, 105, 0.72);
+  color: #efc769;
+  font-size: 18rpx;
+  font-weight: 700;
+}
+
+.card-file-name {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 22rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-action {
+  display: block;
+  margin-top: 16rpx;
+  color: #efc769;
+  font-size: 23rpx;
+  font-weight: 700;
+  text-align: right;
 }
 
 .footer-actions {
@@ -171,4 +250,23 @@ page {
 
 .action-ghost {
   background: rgba(255, 255, 255, 0.06);
+}
+
+/* Gold marks actions; silver marks read-only information. */
+.eyebrow,
+.stat,
+.faq-item,
+.timeline-item {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.info-card:not(.interactive-info-card) {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.action-primary,
+.action-ghost {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.08), 0 14rpx 34rpx rgba(184, 128, 37, 0.16);
 }

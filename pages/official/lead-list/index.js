@@ -14,6 +14,7 @@ const statusFilters = [
   { value: 'contacted', label: '已联系' },
   { value: 'qualified', label: '重点跟进' },
   { value: 'closed', label: '已结束' },
+  { value: 'invalid', label: '无效线索' },
 ];
 
 Page({
@@ -96,7 +97,7 @@ Page({
 
   openForm() {
     wx.navigateTo({
-      url: '/pages/official/lead-form/index?type=agent',
+      url: '/pages/official/form-select/index?type=agent',
     });
   },
 });

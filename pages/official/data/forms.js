@@ -29,7 +29,7 @@ const formMap = {
         label: '意向产品',
         required: false,
         type: 'select',
-        options: ['黑参液', '西洋参凉茶', '野山参酒', '鲜林下参', '珍品野山参', '暂不确定'],
+        options: ['黑参液', '知参堂西洋参凉茶', '野山参酒', '知参堂 鲜参礼盒', '珍品野山参', '暂不确定'],
       },
       {
         key: 'mode',
@@ -45,7 +45,7 @@ const formMap = {
     navTitle: '投资合作',
     label: '投资合作',
     title: '提交投资合作申请',
-    subtitle: '适合项目投资、资源合作、品牌运营、渠道共建和参旅康养方向的合作方。',
+    subtitle: '欢迎项目投资、产业资源、品牌运营、渠道共建与参旅康养领域的合作伙伴提交意向。',
     submitText: '提交投资申请',
     successText: '投资合作申请已记录',
     fields: [
@@ -67,7 +67,7 @@ const formMap = {
     navTitle: '普通咨询',
     label: '普通咨询',
     title: '提交咨询信息',
-    subtitle: '用于产品、品牌、资质、渠道政策等一般问题咨询。',
+    subtitle: '如需了解产品、品牌、企业资质或渠道政策，请提交咨询信息，我们将尽快与您联系。',
     submitText: '提交咨询',
     successText: '咨询信息已记录',
     fields: [

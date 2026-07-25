@@ -10,9 +10,15 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { validateEnvironment } from './config/env.validation';
 import { AuthModule } from './modules/auth/auth.module';
+import { ContentModule } from './modules/content/content.module';
+import { FormsModule } from './modules/forms/forms.module';
 import { HealthModule } from './modules/health/health.module';
+import { LeadsModule } from './modules/leads/leads.module';
+import { MediaModule } from './modules/media/media.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { ProductsModule } from './modules/products/products.module';
 import { RedisModule } from './modules/redis/redis.module';
+import { SystemModule } from './modules/system/system.module';
 
 type RequestWithId = IncomingMessage & { id?: string; requestId?: string };
 
@@ -51,7 +57,11 @@ type RequestWithId = IncomingMessage & { id?: string; requestId?: string };
           redact: [
             'req.headers.authorization',
             'req.body.password',
+            'req.body.currentPassword',
+            'req.body.newPassword',
             'req.body.mobile',
+            'req.body.values',
+            'req.body.sourceDetail',
           ],
         },
       }),
@@ -60,6 +70,12 @@ type RequestWithId = IncomingMessage & { id?: string; requestId?: string };
     RedisModule,
     HealthModule,
     AuthModule,
+    ContentModule,
+    ProductsModule,
+    FormsModule,
+    LeadsModule,
+    MediaModule,
+    SystemModule,
   ],
   controllers: [AppController],
   providers: [

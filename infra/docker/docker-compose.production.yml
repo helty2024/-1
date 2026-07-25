@@ -1,0 +1,136 @@
+name: zhishentang-production
+
+x-api-build: &api-build
+  context: ../..
+  dockerfile: api-server/Dockerfile
+  target: migration
+
+x-service-defaults: &service-defaults
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "5"
+
+services:
+  mysql:
+    <<: *service-defaults
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      MYSQL_DATABASE: ${DATABASE_NAME:?DATABASE_NAME is required}
+      MYSQL_USER: ${DATABASE_USER:?DATABASE_USER is required}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  redis:
+    <<: *service-defaults
+    image: redis:7.4-alpine
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
+    command: ["sh", "-c", "exec redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  migrate:
+    build: *api-build
+    env_file:
+      - ${APP_ENV_FILE:-../env/.env.production}
+    command: ["npm", "run", "db:deploy"]
+    restart: "no"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - backend
+
+  seed:
+    build: *api-build
+    profiles: ["initialize"]
+    env_file:
+      - ${APP_ENV_FILE:-../env/.env.production}
+    command: ["npm", "run", "db:seed"]
+    restart: "no"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - backend
+
+  api-server:
+    <<: *service-defaults
+    build:
+      context: ../..
+      dockerfile: api-server/Dockerfile
+      target: runtime
+    env_file:
+      - ${APP_ENV_FILE:-../env/.env.production}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    volumes:
+      - media_data:/app/storage/media
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  admin-web:
+    <<: *service-defaults
+    build:
+      context: ../..
+      dockerfile: admin-web/Dockerfile.production
+    depends_on:
+      api-server:
+        condition: service_healthy
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ../certs/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro
+      - ../certs/privkey.pem:/etc/nginx/certs/privkey.pem:ro
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-check-certificate -q -O /dev/null https://127.0.0.1/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
+  media_data:

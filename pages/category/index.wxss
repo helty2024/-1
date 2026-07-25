@@ -37,6 +37,7 @@ page {
 .hero-content {
   position: relative;
   z-index: 1;
+  padding-top: 150rpx;
 }
 
 .eyebrow {
@@ -52,15 +53,20 @@ page {
 
 .brand {
   margin-top: 28rpx;
-  font-size: 72rpx;
-  line-height: 1;
+  width: 430rpx;
+  font-size: 66rpx;
+  line-height: 1.08;
   font-weight: 700;
   text-shadow: 0 4rpx 16rpx rgba(18, 12, 8, 0.34);
 }
 
+.brand-line {
+  display: block;
+}
+
 .subtitle {
   margin-top: 18rpx;
-  max-width: 620rpx;
+  max-width: 500rpx;
   font-size: 28rpx;
   line-height: 1.55;
   color: rgba(255, 246, 229, 0.88);
@@ -95,12 +101,6 @@ page {
   margin-top: 8rpx;
   font-size: 22rpx;
   color: rgba(255, 246, 229, 0.76);
-}
-
-.hero-actions {
-  display: flex;
-  gap: 16rpx;
-  margin-top: 28rpx;
 }
 
 .btn {
@@ -388,4 +388,22 @@ page {
   background:
     linear-gradient(180deg, rgba(5, 4, 3, 0.10) 0%, rgba(5, 4, 3, 0.34) 58%, rgba(5, 4, 3, 0.72) 100%),
     linear-gradient(135deg, rgba(214, 171, 83, 0.14) 0%, rgba(5, 4, 3, 0.06) 48%, rgba(5, 4, 3, 0.40) 100%);
+}
+
+/* Gold marks actions; silver marks read-only information. */
+.eyebrow,
+.stat,
+.scenario-card,
+.cta-card,
+.product-role,
+.product-scene {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.product-card,
+.btn {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  border-style: solid;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.08), 0 16rpx 38rpx rgba(184, 128, 37, 0.16);
 }

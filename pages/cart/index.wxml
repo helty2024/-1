@@ -1,75 +1,79 @@
 <view class="page">
   <view class="hero">
-    <image class="hero-bg" src="/images/brand/strength-bg.jpg" mode="aspectFill" />
+    <image class="hero-bg" src="{{content.coverImage || '/images/brand/strength-bg.jpg'}}" mode="aspectFill" />
     <view class="hero-overlay"></view>
     <view class="hero-content">
-      <view class="eyebrow">企业实力 · 合作保障</view>
-      <view class="brand">中康参芝合作实力</view>
-      <view class="subtitle">以长白山参类资源为基础，建立企业主体、源头基地、品质追溯与渠道服务一体化合作体系。</view>
+      <view class="eyebrow">{{content.label}}</view>
+      <view class="brand">{{content.title}}</view>
+      <view class="subtitle">{{content.subtitle}}</view>
       <view class="hero-stats">
-        <view class="stat" wx:for="{{heroStats}}" wx:key="label">
+        <view class="stat" wx:for="{{content.stats}}" wx:key="label">
           <text class="stat-value">{{item.value}}</text>
           <text class="stat-label">{{item.label}}</text>
         </view>
       </view>
-      <view class="hero-actions">
-        <button class="btn btn-primary" bindtap="copyInfo">复制合作意向</button>
-        <button class="btn btn-ghost" bindtap="switchToJoin">申请合作资料</button>
-      </view>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{evidenceSection}}">
     <view class="section-head">
-      <text class="section-title">四项合作实力背书</text>
-      <text class="section-sub">从企业主体到源头基地，从品质管理到渠道服务，为代理合作提供稳定、清晰、可持续的支持基础。</text>
+      <text class="section-title">{{evidenceSection.title}}</text>
+      <text class="section-sub">{{evidenceSection.body}}</text>
     </view>
     <view class="proof-grid">
-      <view class="proof-card" wx:for="{{evidenceCards}}" wx:key="title">
+      <view class="proof-card" wx:for="{{evidenceSection.cards}}" wx:key="title">
         <text class="proof-title">{{item.title}}</text>
         <text class="proof-desc">{{item.desc}}</text>
       </view>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{gallerySection && galleryCards.length}}">
     <view class="section-head">
-      <text class="section-title">品牌展示与溯源资料</text>
-      <text class="section-sub">企业形象、负责人背书、溯源体系和产品资料，帮助合作伙伴在客户沟通与平台展示中建立信任。</text>
+      <text class="section-title">{{gallerySection.title}}</text>
+      <text class="section-sub">{{gallerySection.body}}</text>
     </view>
     <view class="image-strip">
-      <image class="strip-image" wx:for="{{proofImages}}" wx:key="*this" src="{{item}}" mode="aspectFill" />
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-head">
-      <text class="section-title">背书详情入口</text>
-      <text class="section-sub">点击查看企业介绍、品牌背书和投资合作详情，方便代理商、渠道商、投资方快速了解合作基础。</text>
-    </view>
-    <view class="detail-grid">
-      <view class="detail-card" wx:for="{{detailLinks}}" wx:key="type" data-type="{{item.type}}" bindtap="openOfficial">
-        <text class="detail-title">{{item.title}}</text>
-        <text class="detail-desc">{{item.desc}}</text>
+      <view
+        class="strip-card {{item.url ? 'is-interactive' : 'is-readonly'}}"
+        hover-class="interactive-hover"
+        wx:for="{{galleryCards}}"
+        wx:key="title"
+        data-url="{{item.url}}"
+        data-tab="{{item.tab}}"
+        bindtap="handleAction"
+      >
+        <image class="strip-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="strip-copy" wx:if="{{item.title || item.desc}}">
+          <text class="strip-title">{{item.title}}</text>
+          <text class="strip-desc">{{item.desc}}</text>
+          <text class="strip-action" wx:if="{{item.url}}">{{item.actionText || '查看详情'}}</text>
+        </view>
       </view>
     </view>
   </view>
 
-  <view class="section">
-    <view class="tag-row">
-      <text class="trust-tag" wx:for="{{trustLines}}" wx:key="*this">{{item}}</text>
-    </view>
-  </view>
-
-  <view class="section">
+  <view class="section" wx:if="{{ctaSection}}">
     <view class="cta-card">
       <view class="cta-copy">
-        <text class="cta-title">获取代理合作资料</text>
-        <text class="cta-desc">了解渠道政策、产品货盘、授权方式、素材支持与一对一合作对接流程。</text>
+        <text class="cta-title">{{ctaSection.title}}</text>
+        <text class="cta-desc">{{ctaSection.body}}</text>
       </view>
       <view class="cta-actions">
-        <button class="btn btn-primary" bindtap="switchToProducts">查看可代理产品</button>
-        <button class="btn btn-ghost" bindtap="openConsultForm">提交咨询</button>
+        <button
+          wx:if="{{content.primaryAction}}"
+          class="btn btn-primary"
+          data-url="{{content.primaryAction.url}}"
+          data-tab="{{content.primaryAction.tab}}"
+          bindtap="handleAction"
+        >{{content.primaryAction.text}}</button>
+        <button
+          wx:if="{{content.secondaryAction}}"
+          class="btn btn-ghost"
+          data-url="{{content.secondaryAction.url}}"
+          data-tab="{{content.secondaryAction.tab}}"
+          bindtap="handleAction"
+        >{{content.secondaryAction.text}}</button>
       </view>
     </view>
   </view>

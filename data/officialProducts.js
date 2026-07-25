@@ -10,7 +10,7 @@ const officialProducts = [
   },
   {
     slug: 'western-ginseng-tea',
-    name: '九老道西洋参凉茶',
+    name: '知参堂西洋参凉茶',
     shortName: '西洋参凉茶',
     role: '高频动销款',
     note: '西洋参草本即饮凉茶，适合夏季、聚餐、办公室常备和团购。',
@@ -28,10 +28,10 @@ const officialProducts = [
   },
   {
     slug: 'fresh-forest-ginseng',
-    name: '鲜林下参',
-    shortName: '鲜参',
+    name: '知参堂 鲜参礼盒',
+    shortName: '鲜参礼盒',
     role: '源头背书款',
-    note: '以新鲜林下参原料感建立产地信任，适合做源头故事和品质展示。',
+    note: '鲜采林下参形态直观，突出长白山产区、鲜度与原料品质。',
     scene: '适合：产地讲解、直播展示、门店体验、礼赠团购',
     image: '/images/official-products/fresh-forest-ginseng.jpg',
   },

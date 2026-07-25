@@ -35,6 +35,7 @@ page {
 }
 
 .hero-content,
+.company-panel,
 .hero-panel {
   position: relative;
   z-index: 1;
@@ -143,6 +144,44 @@ page {
   border: 1px solid rgba(231, 192, 104, 0.45);
 }
 
+.company-panel {
+  display: grid;
+  grid-template-columns: 260rpx minmax(0, 1fr);
+  gap: 18rpx;
+  margin-top: 28rpx;
+  padding: 18rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 22rpx;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.company-panel-image {
+  width: 260rpx;
+  height: 160rpx;
+  border-radius: 16rpx;
+}
+
+.company-panel-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.company-panel-title {
+  color: #fff;
+  font-size: 27rpx;
+  line-height: 1.38;
+  font-weight: 700;
+}
+
+.company-panel-desc {
+  margin-top: 10rpx;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
 .panel-image {
   width: 162rpx;
   height: 180rpx;
@@ -165,6 +204,13 @@ page {
   font-size: 24rpx;
   line-height: 1.5;
   color: rgba(255, 246, 229, 0.82);
+}
+
+.panel-link {
+  margin-top: 12rpx;
+  color: #f2cf83;
+  font-size: 22rpx;
+  line-height: 1.3;
 }
 
 .section {
@@ -197,9 +243,17 @@ page {
   gap: 16rpx;
 }
 
+.product-section-image {
+  display: block;
+  width: 100%;
+  height: 394rpx;
+  margin-bottom: 18rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 20rpx;
+}
+
 .trust-card,
 .product-card,
-.evidence-card,
 .step-card,
 .cta-card {
   border-radius: 22rpx;
@@ -248,29 +302,35 @@ page {
   color: #6d5f55;
 }
 
-.evidence-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14rpx;
+.evidence-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+  padding: 6rpx 2rpx 12rpx;
 }
 
-.evidence-card {
-  padding: 18rpx;
+.evidence-item {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .evidence-no {
   display: block;
   font-size: 22rpx;
-  color: #8a6a35;
+  color: rgba(255, 255, 255, 0.56);
   font-weight: 700;
 }
 
 .evidence-title {
-  margin-top: 10rpx;
+  margin-top: 6rpx;
   font-size: 28rpx;
 }
 
 .evidence-desc {
+  margin-top: 6rpx;
   font-size: 22rpx;
 }
 
@@ -304,6 +364,14 @@ page {
   font-size: 30rpx;
 }
 
+.product-link {
+  display: block;
+  margin-top: 12rpx;
+  color: #f2cf83;
+  font-size: 22rpx;
+  line-height: 1.3;
+}
+
 .wide-btn {
   width: 100%;
   height: 88rpx;
@@ -322,22 +390,22 @@ page {
 
 .step-card {
   display: grid;
-  grid-template-columns: 92rpx 1fr;
+  grid-template-columns: 64rpx 1fr;
   gap: 14rpx;
   align-items: center;
   padding: 18rpx;
 }
 
 .step-no {
-  width: 92rpx;
-  height: 92rpx;
-  border-radius: 18rpx;
-  background: linear-gradient(135deg, #f4e2bc 0%, #d9bc84 100%);
+  width: 64rpx;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #3b2715;
-  font-size: 30rpx;
+  justify-content: flex-start;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 24rpx;
   font-weight: 700;
 }
 
@@ -372,16 +440,13 @@ page {
   }
 
   .trust-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .evidence-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 page {
@@ -448,7 +513,6 @@ page {
 
 .trust-card,
 .product-card,
-.evidence-card,
 .step-card,
 .cta-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.045));
@@ -458,7 +522,6 @@ page {
 
 .trust-body,
 .product-body,
-.evidence-card,
 .step-card,
 .cta-card {
   background: transparent;
@@ -469,8 +532,9 @@ page {
   color: #fff;
 }
 
-.step-no {
-  background: linear-gradient(135deg, #9b6a23 0%, #e0bd6d 100%);
+.page .step-no {
+  color: rgba(255, 255, 255, 0.56);
+  background: transparent;
 }
 
 .btn-primary,
@@ -488,10 +552,8 @@ page {
 
 .eyebrow,
 .stat,
-.hero-panel,
 .trust-card,
 .product-card,
-.evidence-card,
 .step-card,
 .cta-card,
 .btn,
@@ -557,5 +619,29 @@ page {
   margin-top: 12rpx;
   font-size: 22rpx;
   color: #f2cf83;
+}
+
+/* Gold marks actions; silver marks read-only information. */
+.eyebrow,
+.stat,
+.hero-panel,
+.trust-card,
+.product-card,
+.step-card,
+.cta-card,
+.evidence-visual,
+.product-section-image {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.official-card,
+.hero-panel.interactive-panel,
+.product-card.interactive-panel,
+.btn,
+.wide-btn {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  border-style: solid;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.08), 0 16rpx 38rpx rgba(184, 128, 37, 0.16);
 }
 

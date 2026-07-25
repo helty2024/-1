@@ -21,6 +21,42 @@ page {
     linear-gradient(180deg, #0b0906 0%, #050403 54%, #090806 100%);
 }
 
+.load-state {
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx;
+  text-align: center;
+}
+
+.load-title {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.load-desc {
+  max-width: 560rpx;
+  margin-top: 18rpx;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 25rpx;
+  line-height: 1.6;
+}
+
+.retry-btn {
+  min-width: 220rpx;
+  margin-top: 30rpx;
+  border: 1px solid rgba(231, 192, 104, 0.72);
+  border-radius: 16rpx;
+  background: #9a6b29;
+  font-size: 26rpx;
+}
+
+.retry-btn::after {
+  border: 0;
+}
+
 .hero {
   padding: 42rpx 28rpx 24rpx;
 }
@@ -104,6 +140,24 @@ page {
   align-items: center;
 }
 
+.choice-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+}
+
+.choice-item {
+  min-height: 74rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 10rpx 14rpx;
+  border: 1px solid rgba(231, 192, 104, 0.5);
+  border-radius: 14rpx;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 25rpx;
+}
+
 .placeholder,
 .placeholder-text {
   color: rgba(255, 255, 255, 0.44);
@@ -137,4 +191,20 @@ page {
 
 .submit-btn::after {
   border: 0;
+}
+
+/* Gold marks actions; silver marks read-only information. */
+.eyebrow,
+.form-card,
+.notice {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.field-control,
+.choice-item,
+.retry-btn,
+.submit-btn {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.06);
 }

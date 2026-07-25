@@ -1,4 +1,4 @@
-page {
+.page {
   box-sizing: border-box;
   background: #f4efe6;
   color: #1f1a16;
@@ -7,6 +7,16 @@ page {
 
 .page {
   min-height: 100vh;
+}
+
+.loading-state {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050403;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 26rpx;
 }
 
 .hero {
@@ -67,10 +77,39 @@ page {
   text-shadow: 0 3rpx 12rpx rgba(18, 12, 8, 0.32);
 }
 
-.hero-actions {
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+  margin-top: 26rpx;
+}
+
+.stat {
+  min-height: 112rpx;
   display: flex;
-  gap: 16rpx;
-  margin-top: 28rpx;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16rpx 18rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.stat-value,
+.stat-label {
+  display: block;
+}
+
+.stat-value {
+  font-size: 32rpx;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.stat-label {
+  margin-top: 7rpx;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 21rpx;
 }
 
 .btn {
@@ -118,6 +157,15 @@ page {
   font-size: 24rpx;
   line-height: 1.5;
   color: #6f6257;
+}
+
+.section-image {
+  display: block;
+  width: 100%;
+  height: 360rpx;
+  margin-bottom: 18rpx;
+  border: 1px solid rgba(190, 201, 214, 0.48);
+  border-radius: 20rpx;
 }
 
 .card-grid,
@@ -182,19 +230,13 @@ page {
   }
 }
 
-page {
+.page {
   background: #050403;
   color: #fff;
 }
 
-.page,
-.page view,
-.page text,
-.page button {
-  color: #fff;
-}
-
 .page {
+  color: #fff;
   background:
     radial-gradient(circle at 88% 0%, rgba(225, 178, 87, 0.13), transparent 32%),
     linear-gradient(180deg, #0b0906 0%, #050403 50%, #090806 100%);
@@ -274,7 +316,7 @@ page {
 
 .application-card {
   padding: 18rpx;
-  border: 1px solid rgba(231, 192, 104, 0.58);
+  border: 1px solid rgba(190, 201, 214, 0.48);
   border-radius: 18rpx;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.045));
   box-shadow: 0 20rpx 56rpx rgba(0, 0, 0, 0.22);
@@ -304,4 +346,20 @@ page {
   margin-top: 12rpx;
   font-size: 22rpx;
   color: #f2cf83;
+}
+
+/* Gold marks actions; silver marks read-only information. */
+.eyebrow,
+.info-card,
+.benefit-card,
+.cta-card {
+  border-color: rgba(190, 201, 214, 0.48);
+}
+
+.application-card.is-interactive,
+.btn {
+  border-color: rgba(239, 199, 105, 0.92);
+  border-width: 2rpx;
+  border-style: solid;
+  box-shadow: 0 0 0 1rpx rgba(239, 199, 105, 0.08), 0 16rpx 38rpx rgba(184, 128, 37, 0.16);
 }

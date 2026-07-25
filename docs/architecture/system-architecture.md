@@ -431,7 +431,7 @@ GitHub Actions 建议流水线：
 
 ### 阶段 B：内容与产品后台化
 
-- 将 `pages/official/data/content.js` 导入内容表。
+- 将 `data/officialContent.js` 导入内容表。
 - 将现有产品数据和产品图片导入产品表与 COS。
 - 小程序新增 API 请求层，按页面逐个切换，保留仓储适配接口。
 - 页面切换完成后，本地数据只保留开发测试用途，不参与生产展示。

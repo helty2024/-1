@@ -78,6 +78,7 @@ model AdminUser {
   displayName     String          @map("display_name") @db.VarChar(80)
   mobileEncrypted String?         @map("mobile_encrypted") @db.VarChar(512)
   mobileHash      String?         @map("mobile_hash") @db.Char(64)
+  tokenVersion    Int             @default(0) @map("token_version")
   status          AdminUserStatus @default(ACTIVE)
   lastLoginAt     DateTime?       @map("last_login_at")
   createdAt       DateTime        @default(now()) @map("created_at")

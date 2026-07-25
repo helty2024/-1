@@ -16,6 +16,10 @@ export class PrismaService
       password: config.getOrThrow<string>('DATABASE_PASSWORD'),
       database: config.getOrThrow<string>('DATABASE_NAME'),
       connectionLimit: config.get<number>('DATABASE_CONNECTION_LIMIT', 10),
+      allowPublicKeyRetrieval: config.get<boolean>(
+        'DATABASE_ALLOW_PUBLIC_KEY_RETRIEVAL',
+        true,
+      ),
     });
     super({ adapter });
   }
